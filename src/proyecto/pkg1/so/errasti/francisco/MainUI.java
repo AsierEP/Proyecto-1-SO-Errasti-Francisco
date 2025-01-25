@@ -31,6 +31,7 @@ public class MainUI extends javax.swing.JFrame {
 
         ConfiguracionButt = new javax.swing.JButton();
         TittleLab = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(1500, 800));
@@ -44,6 +45,13 @@ public class MainUI extends javax.swing.JFrame {
 
         TittleLab.setText("SIMULACIÓN DE PLANIFICACIÓN");
 
+        jButton1.setText("Ventana de procesos");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -52,11 +60,13 @@ public class MainUI extends javax.swing.JFrame {
                 .addContainerGap(607, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(ConfiguracionButt)
-                        .addGap(41, 41, 41))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(TittleLab)
-                        .addGap(601, 601, 601))))
+                        .addGap(601, 601, 601))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(ConfiguracionButt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(41, 41, 41))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -65,15 +75,25 @@ public class MainUI extends javax.swing.JFrame {
                 .addComponent(TittleLab)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 302, Short.MAX_VALUE)
                 .addComponent(ConfiguracionButt)
-                .addGap(66, 66, 66))
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addGap(25, 25, 25))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void ConfiguracionButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfiguracionButtActionPerformed
-        // TODO add your handling code here:
+        SistemConfUI sc = new SistemConfUI();
+        sc.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_ConfiguracionButtActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        ProcessConfUI pc = new ProcessConfUI();
+        pc.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -113,5 +133,6 @@ public class MainUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ConfiguracionButt;
     private javax.swing.JLabel TittleLab;
+    private javax.swing.JButton jButton1;
     // End of variables declaration//GEN-END:variables
 }
