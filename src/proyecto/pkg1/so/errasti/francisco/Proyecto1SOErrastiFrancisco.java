@@ -10,11 +10,12 @@ package proyecto.pkg1.so.errasti.francisco;
  */
 public class Proyecto1SOErrastiFrancisco {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
+        // Crea una instancia de MainUI y la hace visible
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new MainUI().setVisible(true);
+            }
+        });
     }
-    
 }
