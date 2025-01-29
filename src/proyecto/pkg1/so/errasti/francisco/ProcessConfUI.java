@@ -14,9 +14,10 @@ public class ProcessConfUI extends javax.swing.JFrame {
      * Creates new form ProcessConfUI
      */
     public ProcessConfUI() {
+        initComponents();
+        setSize(1500, 800);
         setResizable(false);
         setLocationRelativeTo(null);
-        initComponents();
     }
 
     /**
@@ -28,8 +29,15 @@ public class ProcessConfUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        ProcessModeButts = new javax.swing.ButtonGroup();
         PCTittle = new javax.swing.JLabel();
         BackToSimButt = new javax.swing.JButton();
+        Lab1 = new javax.swing.JLabel();
+        Lab2 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        Lab3 = new javax.swing.JLabel();
+        CPUBoundButt = new javax.swing.JRadioButton();
+        IOBoundButt = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -42,25 +50,68 @@ public class ProcessConfUI extends javax.swing.JFrame {
             }
         });
 
+        Lab1.setText("Por favor llene todos los campos de la creación del proceso");
+
+        Lab2.setText("Nombre:");
+
+        jTextField1.setForeground(new java.awt.Color(204, 204, 204));
+        jTextField1.setText("Ej: P1");
+
+        Lab3.setText("Cantidad de instrucciones:");
+
+        CPUBoundButt.setText("CPU Bound");
+
+        IOBoundButt.setText("I/O Bound");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(120, 120, 120)
-                .addComponent(PCTittle)
-                .addContainerGap(138, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(BackToSimButt)
                 .addGap(20, 20, 20))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(120, 120, 120)
+                        .addComponent(PCTittle))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addComponent(Lab1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Lab3)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(Lab2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(CPUBoundButt, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(IOBoundButt, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(40, 40, 40)))))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(PCTittle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 237, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
+                .addComponent(Lab1)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Lab2)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(Lab3)
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(CPUBoundButt)
+                    .addComponent(IOBoundButt))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
                 .addComponent(BackToSimButt)
                 .addGap(18, 18, 18))
         );
@@ -111,6 +162,13 @@ public class ProcessConfUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BackToSimButt;
+    private javax.swing.JRadioButton CPUBoundButt;
+    private javax.swing.JRadioButton IOBoundButt;
+    private javax.swing.JLabel Lab1;
+    private javax.swing.JLabel Lab2;
+    private javax.swing.JLabel Lab3;
     private javax.swing.JLabel PCTittle;
+    private javax.swing.ButtonGroup ProcessModeButts;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

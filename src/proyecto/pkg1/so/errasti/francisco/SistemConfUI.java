@@ -14,9 +14,10 @@ public class SistemConfUI extends javax.swing.JFrame {
      * Creates new form SistemConfUI
      */
     public SistemConfUI() {
+        initComponents();
+        setSize(1500, 800);
         setResizable(false);
         setLocationRelativeTo(null);
-        initComponents();
     }
 
     /**
