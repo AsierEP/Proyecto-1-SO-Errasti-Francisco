@@ -14,6 +14,8 @@ public class SistemConfUI extends javax.swing.JFrame {
      * Creates new form SistemConfUI
      */
     public SistemConfUI() {
+        setResizable(false);
+        setLocationRelativeTo(null);
         initComponents();
     }
 
@@ -26,21 +28,51 @@ public class SistemConfUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        BacktoSimButt = new javax.swing.JButton();
+        SCTittle = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        BacktoSimButt.setText("Volver a simulación");
+        BacktoSimButt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BacktoSimButtActionPerformed(evt);
+            }
+        });
+
+        SCTittle.setText("Configuración del sistema");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(BacktoSimButt)
+                .addGap(24, 24, 24))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(126, 126, 126)
+                .addComponent(SCTittle)
+                .addContainerGap(136, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(SCTittle)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 232, Short.MAX_VALUE)
+                .addComponent(BacktoSimButt)
+                .addGap(23, 23, 23))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void BacktoSimButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BacktoSimButtActionPerformed
+        MainUI MUI = new MainUI();
+        MUI.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_BacktoSimButtActionPerformed
 
     /**
      * @param args the command line arguments
@@ -78,5 +110,7 @@ public class SistemConfUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BacktoSimButt;
+    private javax.swing.JLabel SCTittle;
     // End of variables declaration//GEN-END:variables
 }

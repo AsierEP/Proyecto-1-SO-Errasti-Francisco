@@ -14,6 +14,8 @@ public class ProcessConfUI extends javax.swing.JFrame {
      * Creates new form ProcessConfUI
      */
     public ProcessConfUI() {
+        setResizable(false);
+        setLocationRelativeTo(null);
         initComponents();
     }
 
@@ -26,21 +28,51 @@ public class ProcessConfUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        PCTittle = new javax.swing.JLabel();
+        BackToSimButt = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        PCTittle.setText("Configuración de procesos");
+
+        BackToSimButt.setText("Volver a simulación");
+        BackToSimButt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BackToSimButtActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(120, 120, 120)
+                .addComponent(PCTittle)
+                .addContainerGap(138, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(BackToSimButt)
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(PCTittle)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 237, Short.MAX_VALUE)
+                .addComponent(BackToSimButt)
+                .addGap(18, 18, 18))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void BackToSimButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackToSimButtActionPerformed
+        MainUI MUI = new MainUI();
+        MUI.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_BackToSimButtActionPerformed
 
     /**
      * @param args the command line arguments
@@ -78,5 +110,7 @@ public class ProcessConfUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BackToSimButt;
+    private javax.swing.JLabel PCTittle;
     // End of variables declaration//GEN-END:variables
 }
