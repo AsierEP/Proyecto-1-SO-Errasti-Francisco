@@ -33,6 +33,7 @@ public class SistemConfUI extends javax.swing.JFrame {
         SCTittle = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setSize(new java.awt.Dimension(1500, 800));
 
         BacktoSimButt.setText("Volver a simulación");
         BacktoSimButt.addActionListener(new java.awt.event.ActionListener() {
@@ -54,14 +55,14 @@ public class SistemConfUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(126, 126, 126)
                 .addComponent(SCTittle)
-                .addContainerGap(136, Short.MAX_VALUE))
+                .addContainerGap(1106, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(SCTittle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 232, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 506, Short.MAX_VALUE)
                 .addComponent(BacktoSimButt)
                 .addGap(23, 23, 23))
         );

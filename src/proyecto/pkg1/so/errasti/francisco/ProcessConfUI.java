@@ -9,7 +9,7 @@ package proyecto.pkg1.so.errasti.francisco;
  * @author Dell
  */
 public class ProcessConfUI extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form ProcessConfUI
      */
@@ -18,6 +18,17 @@ public class ProcessConfUI extends javax.swing.JFrame {
         setSize(1500, 800);
         setResizable(false);
         setLocationRelativeTo(null);
+        
+        NameTF.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            NameTFMouseClicked(evt);
+        }
+    });
+        CantInstTF.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            CantInstTFMouseClicked(evt);
+        }
+    });
     }
 
     /**
@@ -33,13 +44,16 @@ public class ProcessConfUI extends javax.swing.JFrame {
         PCTittle = new javax.swing.JLabel();
         BackToSimButt = new javax.swing.JButton();
         Lab1 = new javax.swing.JLabel();
-        Lab2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        Lab3 = new javax.swing.JLabel();
+        NameLab = new javax.swing.JLabel();
+        NameTF = new javax.swing.JTextField();
+        CantInsLab = new javax.swing.JLabel();
         CPUBoundButt = new javax.swing.JRadioButton();
         IOBoundButt = new javax.swing.JRadioButton();
+        CrearProcesoButt = new javax.swing.JButton();
+        CantInstTF = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setSize(new java.awt.Dimension(1500, 800));
 
         PCTittle.setText("Configuración de procesos");
 
@@ -52,16 +66,31 @@ public class ProcessConfUI extends javax.swing.JFrame {
 
         Lab1.setText("Por favor llene todos los campos de la creación del proceso");
 
-        Lab2.setText("Nombre:");
+        NameLab.setText("Nombre:");
 
-        jTextField1.setForeground(new java.awt.Color(204, 204, 204));
-        jTextField1.setText("Ej: P1");
+        NameTF.setForeground(new java.awt.Color(204, 204, 204));
+        NameTF.setText("Ej: P1");
+        NameTF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NameTFActionPerformed(evt);
+            }
+        });
 
-        Lab3.setText("Cantidad de instrucciones:");
+        CantInsLab.setText("Cantidad de instrucciones:");
 
         CPUBoundButt.setText("CPU Bound");
 
         IOBoundButt.setText("I/O Bound");
+
+        CrearProcesoButt.setText("Crear proceso");
+        CrearProcesoButt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CrearProcesoButtActionPerformed(evt);
+            }
+        });
+
+        CantInstTF.setForeground(new java.awt.Color(204, 204, 204));
+        CantInstTF.setText("Ej: 5");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -72,27 +101,37 @@ public class ProcessConfUI extends javax.swing.JFrame {
                 .addComponent(BackToSimButt)
                 .addGap(20, 20, 20))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(120, 120, 120)
+                            .addComponent(PCTittle))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(39, 39, 39)
+                            .addComponent(Lab1))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(14, 14, 14)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(CPUBoundButt, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(IOBoundButt, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(40, 40, 40))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(CantInsLab)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(CantInstTF, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(NameLab)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(NameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGap(0, 0, Short.MAX_VALUE)))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(120, 120, 120)
-                        .addComponent(PCTittle))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addComponent(Lab1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Lab3)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(Lab2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(CPUBoundButt, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(IOBoundButt, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(40, 40, 40)))))
-                .addContainerGap(44, Short.MAX_VALUE))
+                        .addGap(89, 89, 89)
+                        .addComponent(CrearProcesoButt)))
+                .addContainerGap(1106, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -103,15 +142,19 @@ public class ProcessConfUI extends javax.swing.JFrame {
                 .addComponent(Lab1)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Lab2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(NameLab)
+                    .addComponent(NameTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(Lab3)
-                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(CantInsLab)
+                    .addComponent(CantInstTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(CPUBoundButt)
                     .addComponent(IOBoundButt))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
+                .addGap(89, 89, 89)
+                .addComponent(CrearProcesoButt)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 391, Short.MAX_VALUE)
                 .addComponent(BackToSimButt)
                 .addGap(18, 18, 18))
         );
@@ -125,6 +168,35 @@ public class ProcessConfUI extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_BackToSimButtActionPerformed
 
+    private void NameTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NameTFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_NameTFActionPerformed
+
+    private void CrearProcesoButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearProcesoButtActionPerformed
+        ProcessModeButts.add(CPUBoundButt);        
+        ProcessModeButts.add(IOBoundButt);
+        
+        String []Proceso = new String[4];
+        Proceso[1] = NameTF.getText(); NameTF.setText("");
+        Proceso[2] = CantInstTF.getText(); CantInstTF.setText("");
+        if (CPUBoundButt.isSelected()) {
+            Proceso[3] = "CPUBound";
+        }
+        else if (IOBoundButt.isSelected()) {
+            Proceso[3] = "IOBound";
+        }
+        else {Proceso[3] = "";}
+    }//GEN-LAST:event_CrearProcesoButtActionPerformed
+
+    private void NameTFMouseClicked(java.awt.event.MouseEvent evt) {                                          
+    NameTF.setText("");
+    NameTF.setForeground(new java.awt.Color(0, 0, 0));
+    }
+    private void CantInstTFMouseClicked(java.awt.event.MouseEvent evt) {                                          
+    CantInstTF.setText("");
+    CantInstTF.setForeground(new java.awt.Color(0, 0, 0));
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -163,12 +235,14 @@ public class ProcessConfUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BackToSimButt;
     private javax.swing.JRadioButton CPUBoundButt;
+    private javax.swing.JLabel CantInsLab;
+    private javax.swing.JTextField CantInstTF;
+    private javax.swing.JButton CrearProcesoButt;
     private javax.swing.JRadioButton IOBoundButt;
     private javax.swing.JLabel Lab1;
-    private javax.swing.JLabel Lab2;
-    private javax.swing.JLabel Lab3;
+    private javax.swing.JLabel NameLab;
+    private javax.swing.JTextField NameTF;
     private javax.swing.JLabel PCTittle;
     private javax.swing.ButtonGroup ProcessModeButts;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
