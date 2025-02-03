@@ -14,7 +14,7 @@ public class Proyecto1SOErrastiFrancisco {
         // Crea una instancia de MainUI y la hace visible
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainUI().setVisible(true);
+                new LoadArchiveUI().setVisible(true);
             }
         });
     }
