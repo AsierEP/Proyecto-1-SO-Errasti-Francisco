@@ -19,16 +19,23 @@ public class LoadArchiveUI extends javax.swing.JFrame {
         File archivo;
         FileInputStream entrada;
         FileOutputStream salida;
+        
+        public String documento = "";
+
 
     /**
      * Creates new form LoadArchiveUI
      */
     public LoadArchiveUI() {
         initComponents();
+        this.setLocationRelativeTo(null);
+    }
+    
+    public String getDocumento() {
+        return documento;
     }
     
     public String AbrirArchivo (File archivo){
-        String documento = "";
         try{
             entrada = new FileInputStream(archivo);
             int ascci;
@@ -112,16 +119,19 @@ public class LoadArchiveUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-            if((choose.showDialog(null, "Abrir"))==JFileChooser.APPROVE_OPTION){
-                archivo = choose.getSelectedFile();
-                if(archivo.canRead()){
-                    if(archivo.getName().endsWith("txt")){
-                        String docuento = AbrirArchivo(archivo);
-                    }else{
-                        JOptionPane.showMessageDialog(null, "Archivo no válido");
-                    }
+
+        if ((choose.showDialog(null, "Abrir")) == JFileChooser.APPROVE_OPTION) {
+            archivo = choose.getSelectedFile();
+            if (archivo.canRead()) {
+                if (archivo.getName().endsWith("txt")) {
+                    documento = AbrirArchivo(archivo); // Leer el archivo y guardar el contenido en documento
+                    this.setVisible(false); // Ocultar LoadArchiveUI
+                    new MainUI(documento).setVisible(true); // Pasar documento a MainUI
+                } else {
+                    JOptionPane.showMessageDialog(null, "Archivo no válido");
                 }
             }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

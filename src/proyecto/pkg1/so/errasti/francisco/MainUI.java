@@ -4,22 +4,65 @@
  */
 package proyecto.pkg1.so.errasti.francisco;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import javax.swing.Timer;
+import proyecto.pkg1.so.errasti.francisco.LoadArchiveUI.*;
+
 /**
  *
  * @author Dell
  */
 public class MainUI extends javax.swing.JFrame {
+    
+    private int ciclos;
+    private Timer mTimer;
+    private int increase;
+    private String documento;
 
     /**
      * Creates new form MainUI
      */
-    public MainUI() {
+    public MainUI(String documento) {
+        this.documento = documento;
         initComponents();
         setSize(1500, 800);
         setResizable(false);
         setLocationRelativeTo(null);
-    }
+        
+        increase = Integer.parseInt(documento.split(",")[0].trim());
 
+                
+        mTimer = new Timer(increase*1000, (ActionEvent e) -> {
+            StartTimer();
+        });
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+                ciclos = 0;
+                mTimer.start();
+            }
+        });
+    }
+    
+    private void StartTimer(){
+        updateTime();
+        updateLabel();
+    }
+    
+    private void updateTime(){
+        ciclos++;
+    }
+    
+    private void updateLabel(){
+        String cronometro = ciclos + " ciclos";
+        TimerLab.setText(cronometro);
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,11 +84,13 @@ public class MainUI extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
+        CiclosLab = new javax.swing.JLabel();
+        TimerLab = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(1500, 800));
 
-        ConfiguracionButt.setText("Configuración del prgograma");
+        ConfiguracionButt.setText("Configuración del programa");
         ConfiguracionButt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ConfiguracionButtActionPerformed(evt);
@@ -108,6 +153,11 @@ public class MainUI extends javax.swing.JFrame {
 
         jLabel1.setText("Procesos Bloqueados:");
 
+        CiclosLab.setText("Ciclo actual:");
+
+        TimerLab.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        TimerLab.setText("0 ciclos");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -144,8 +194,15 @@ public class MainUI extends javax.swing.JFrame {
                         .addContainerGap(318, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(TittleLab)
-                .addGap(601, 601, 601))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(TittleLab)
+                        .addGap(601, 601, 601))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(CiclosLab)
+                        .addGap(26, 26, 26)
+                        .addComponent(TimerLab)
+                        .addGap(102, 102, 102))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -172,7 +229,11 @@ public class MainUI extends javax.swing.JFrame {
                         .addComponent(jButton1)
                         .addGap(145, 145, 145))))
             .addGroup(layout.createSequentialGroup()
-                .addGap(65, 65, 65)
+                .addGap(44, 44, 44)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(CiclosLab)
+                    .addComponent(TimerLab))
+                .addGap(5, 5, 5)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -183,13 +244,13 @@ public class MainUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ConfiguracionButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfiguracionButtActionPerformed
-        SistemConfUI sc = new SistemConfUI();
+        SistemConfUI sc = new SistemConfUI(documento);
         sc.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_ConfiguracionButtActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ProcessConfUI pc = new ProcessConfUI();
+        ProcessConfUI pc = new ProcessConfUI(documento);
         pc.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -198,6 +259,8 @@ public class MainUI extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+    LoadArchiveUI loadArchive = new LoadArchiveUI();
+    String documento = loadArchive.getDocumento();
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -224,15 +287,17 @@ public class MainUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainUI().setVisible(true);
+                new MainUI(documento).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel CiclosLab;
     private javax.swing.JButton ConfiguracionButt;
     private javax.swing.JLabel ProcessReadyLab;
     private javax.swing.JList<String> ProcessReadyList;
+    private javax.swing.JLabel TimerLab;
     private javax.swing.JLabel TittleLab;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;

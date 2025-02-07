@@ -11,7 +11,9 @@ package proyecto.pkg1.so.errasti.francisco;
 public class Proyecto1SOErrastiFrancisco {
 
     public static void main(String[] args) {
-        // Crea una instancia de MainUI y la hace visible
+        
+        LoadArchiveUI loadArchiveUI = new LoadArchiveUI();
+        String documento = loadArchiveUI.getDocumento();
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new LoadArchiveUI().setVisible(true);
