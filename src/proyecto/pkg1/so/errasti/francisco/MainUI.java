@@ -42,10 +42,100 @@ public class MainUI extends javax.swing.JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowOpened(WindowEvent e) {
-                ciclos = 0;
                 mTimer.start();
             }
         });
+        
+            String[] partes = documento.split(",");
+    int numero = Integer.parseInt(partes[1].trim()); // Número después de la coma
+
+    // Lógica para cambiar los labels según el número
+    switch (numero) {
+        case 0:
+            // No se realiza ningún cambio
+            break;
+        case 1:
+            // Cambiar Procesador1Lab a "[ENCENDIDO]" y color verde
+            Procesador1Lab.setText("[ENCENDIDO]");
+            Procesador1Lab.setForeground(new java.awt.Color(0, 128, 0)); // Verde
+
+            // Hacer visibles los labels de P1
+            EjecutandoP1Lab.setVisible(true);
+            ProcessP1Lab.setVisible(true);
+            OwnerP1Lab.setVisible(true);
+            PCP1Lab.setVisible(true);
+            InstrucP1Lab.setVisible(true);
+            break;
+        case 2:
+            // Cambiar Procesador1Lab y Procesador2Lab a "[ENCENDIDO]" y color verde
+            Procesador1Lab.setText("[ENCENDIDO]");
+            Procesador1Lab.setForeground(new java.awt.Color(0, 128, 0)); // Verde
+            Procesador2Lab.setText("[ENCENDIDO]");
+            Procesador2Lab.setForeground(new java.awt.Color(0, 128, 0)); // Verde
+
+            // Hacer visibles los labels de P1 y P2
+            EjecutandoP1Lab.setVisible(true);
+            ProcessP1Lab.setVisible(true);
+            OwnerP1Lab.setVisible(true);
+            PCP1Lab.setVisible(true);
+            InstrucP1Lab.setVisible(true);
+
+            EjecutandoP2Lab.setVisible(true);
+            ProcessP2Lab.setVisible(true);
+            OwnerP2Lab.setVisible(true);
+            PCP2Lab.setVisible(true);
+            InstrucP2Lab.setVisible(true);
+            break;
+        case 3:
+            // Cambiar Procesador1Lab, Procesador2Lab y Procesador3Lab a "[ENCENDIDO]" y color verde
+            Procesador1Lab.setText("[ENCENDIDO]");
+            Procesador1Lab.setForeground(new java.awt.Color(0, 128, 0)); // Verde
+            Procesador2Lab.setText("[ENCENDIDO]");
+            Procesador2Lab.setForeground(new java.awt.Color(0, 128, 0)); // Verde
+            Procesador3Lab.setText("[ENCENDIDO]");
+            Procesador3Lab.setForeground(new java.awt.Color(0, 128, 0)); // Verde
+
+            // Hacer visibles los labels de P1, P2 y P3
+            EjecutandoP1Lab.setVisible(true);
+            ProcessP1Lab.setVisible(true);
+            OwnerP1Lab.setVisible(true);
+            PCP1Lab.setVisible(true);
+            InstrucP1Lab.setVisible(true);
+
+            EjecutandoP2Lab.setVisible(true);
+            ProcessP2Lab.setVisible(true);
+            OwnerP2Lab.setVisible(true);
+            PCP2Lab.setVisible(true);
+            InstrucP2Lab.setVisible(true);
+
+            EjecutandoP3Lab.setVisible(true);
+            ProcessP3Lab.setVisible(true);
+            OwnerP3Lab.setVisible(true);
+            PCP3Lab.setVisible(true);
+            InstrucP3Lab.setVisible(true);
+            break;
+        default:
+            // Manejo de casos no esperados
+            System.out.println("Número no válido en documento: " + numero);
+            break;
+    }
+        
+        
+        EjecutandoP1Lab.setVisible(false);
+        ProcessP1Lab.setVisible(false);
+        OwnerP1Lab.setVisible(false);
+        PCP1Lab.setVisible(false);
+        InstrucP1Lab.setVisible(false);
+        EjecutandoP2Lab.setVisible(false);
+        ProcessP2Lab.setVisible(false);
+        OwnerP2Lab.setVisible(false);
+        PCP2Lab.setVisible(false);
+        InstrucP2Lab.setVisible(false);
+        EjecutandoP3Lab.setVisible(false);
+        ProcessP3Lab.setVisible(false);
+        OwnerP3Lab.setVisible(false);
+        PCP3Lab.setVisible(false);
+        InstrucP3Lab.setVisible(false);
     }
     
     private void StartTimer(){
@@ -76,8 +166,19 @@ public class MainUI extends javax.swing.JFrame {
         TittleLab = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        Procesador3Lab = new javax.swing.JLabel();
+        EjecutandoP3Lab = new javax.swing.JLabel();
+        ProcessP3Lab = new javax.swing.JLabel();
+        OwnerP3Lab = new javax.swing.JLabel();
+        PCP3Lab = new javax.swing.JLabel();
+        InstrucP3Lab = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
+        Procesador2Lab = new javax.swing.JLabel();
+        EjecutandoP2Lab = new javax.swing.JLabel();
+        ProcessP2Lab = new javax.swing.JLabel();
+        OwnerP2Lab = new javax.swing.JLabel();
+        PCP2Lab = new javax.swing.JLabel();
+        InstrucP2Lab = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         ProcessReadyList = new javax.swing.JList<>();
         ProcessReadyLab = new javax.swing.JLabel();
@@ -86,6 +187,16 @@ public class MainUI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         CiclosLab = new javax.swing.JLabel();
         TimerLab = new javax.swing.JLabel();
+        NameP1Lab = new javax.swing.JLabel();
+        NameP2Lab = new javax.swing.JLabel();
+        NameP3Lab = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        Procesador1Lab = new javax.swing.JLabel();
+        EjecutandoP1Lab = new javax.swing.JLabel();
+        ProcessP1Lab = new javax.swing.JLabel();
+        OwnerP1Lab = new javax.swing.JLabel();
+        PCP1Lab = new javax.swing.JLabel();
+        InstrucP1Lab = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(1500, 800));
@@ -108,41 +219,116 @@ public class MainUI extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
+        Procesador3Lab.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        Procesador3Lab.setForeground(new java.awt.Color(255, 0, 0));
+        Procesador3Lab.setText("[APAGADO]");
+
+        EjecutandoP3Lab.setText("Ejecutando:");
+
+        ProcessP3Lab.setText("\"\"");
+
+        OwnerP3Lab.setText("Programa de ");
+
+        PCP3Lab.setText("PC:");
+
+        InstrucP3Lab.setText("\"\"");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 281, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Procesador3Lab, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(69, 69, 69))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(OwnerP3Lab, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(EjecutandoP3Lab)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(ProcessP3Lab, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(PCP3Lab)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(InstrucP3Lab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 215, Short.MAX_VALUE)
-        );
-
-        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(Procesador3Lab)
+                .addGap(36, 36, 36)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ProcessP3Lab)
+                    .addComponent(EjecutandoP3Lab))
+                .addGap(18, 18, 18)
+                .addComponent(OwnerP3Lab)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(PCP3Lab)
+                    .addComponent(InstrucP3Lab))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(204, 204, 204));
+
+        Procesador2Lab.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        Procesador2Lab.setForeground(new java.awt.Color(255, 0, 0));
+        Procesador2Lab.setText("[APAGADO]");
+
+        EjecutandoP2Lab.setText("Ejecutando:");
+
+        ProcessP2Lab.setText("\"\"");
+
+        OwnerP2Lab.setText("Programa de ");
+
+        PCP2Lab.setText("PC:");
+
+        InstrucP2Lab.setText("\"\"");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(6, 36, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(Procesador2Lab, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(62, 62, 62))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(PCP2Lab)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(InstrucP2Lab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(OwnerP2Lab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                    .addComponent(EjecutandoP2Lab)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(ProcessP2Lab, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(32, 32, 32))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 215, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(Procesador2Lab)
+                .addGap(30, 30, 30)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(EjecutandoP2Lab)
+                    .addComponent(ProcessP2Lab))
+                .addGap(18, 18, 18)
+                .addComponent(OwnerP2Lab)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(PCP2Lab)
+                    .addComponent(InstrucP2Lab))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(ProcessReadyList);
@@ -158,6 +344,68 @@ public class MainUI extends javax.swing.JFrame {
         TimerLab.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         TimerLab.setText("0 ciclos");
 
+        NameP1Lab.setText("Procesador 1");
+
+        NameP2Lab.setText("Procesador 2");
+
+        NameP3Lab.setText("Procesador 3");
+
+        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
+
+        Procesador1Lab.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        Procesador1Lab.setForeground(new java.awt.Color(255, 0, 0));
+        Procesador1Lab.setText("[APAGADO]");
+
+        EjecutandoP1Lab.setText("Ejecutando:");
+
+        ProcessP1Lab.setText("\"\"");
+
+        OwnerP1Lab.setText("Programa de ");
+
+        PCP1Lab.setText("PC:");
+
+        InstrucP1Lab.setText("\"\"");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Procesador1Lab, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(65, 65, 65))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(OwnerP1Lab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(EjecutandoP1Lab)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(ProcessP1Lab, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(PCP1Lab)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(InstrucP1Lab, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(40, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(Procesador1Lab)
+                .addGap(34, 34, 34)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(EjecutandoP1Lab)
+                    .addComponent(ProcessP1Lab))
+                .addGap(18, 18, 18)
+                .addComponent(OwnerP1Lab)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(PCP1Lab)
+                    .addComponent(InstrucP1Lab))
+                .addContainerGap(65, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -166,15 +414,17 @@ public class MainUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(165, 165, 165)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(78, 78, 78)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(622, 622, 622)
+                        .addGap(284, 284, 284)
+                        .addComponent(NameP3Lab)
+                        .addGap(269, 269, 269)
                         .addComponent(ProcessReadyLab)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -194,40 +444,53 @@ public class MainUI extends javax.swing.JFrame {
                         .addContainerGap(318, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(TittleLab)
-                        .addGap(601, 601, 601))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(CiclosLab)
-                        .addGap(26, 26, 26)
-                        .addComponent(TimerLab)
-                        .addGap(102, 102, 102))))
+                .addComponent(TittleLab)
+                .addGap(601, 601, 601))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(278, 278, 278)
+                .addComponent(NameP1Lab)
+                .addGap(287, 287, 287)
+                .addComponent(NameP2Lab)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(CiclosLab)
+                .addGap(26, 26, 26)
+                .addComponent(TimerLab)
+                .addGap(102, 102, 102))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(TittleLab)
-                .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(57, 57, 57)
-                .addComponent(ProcessReadyLab)
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(81, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(ConfiguracionButt)
+                        .addGap(7, 7, 7)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(NameP1Lab)
+                            .addComponent(NameP2Lab))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(57, 57, 57)
+                        .addComponent(ProcessReadyLab)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)
-                        .addGap(145, 145, 145))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(72, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(ConfiguracionButt)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton1)
+                                .addGap(145, 145, 145))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(321, 321, 321)
+                        .addComponent(NameP3Lab)
+                        .addGap(0, 0, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -295,6 +558,27 @@ public class MainUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel CiclosLab;
     private javax.swing.JButton ConfiguracionButt;
+    private javax.swing.JLabel EjecutandoP1Lab;
+    private javax.swing.JLabel EjecutandoP2Lab;
+    private javax.swing.JLabel EjecutandoP3Lab;
+    private javax.swing.JLabel InstrucP1Lab;
+    private javax.swing.JLabel InstrucP2Lab;
+    private javax.swing.JLabel InstrucP3Lab;
+    private javax.swing.JLabel NameP1Lab;
+    private javax.swing.JLabel NameP2Lab;
+    private javax.swing.JLabel NameP3Lab;
+    private javax.swing.JLabel OwnerP1Lab;
+    private javax.swing.JLabel OwnerP2Lab;
+    private javax.swing.JLabel OwnerP3Lab;
+    private javax.swing.JLabel PCP1Lab;
+    private javax.swing.JLabel PCP2Lab;
+    private javax.swing.JLabel PCP3Lab;
+    private javax.swing.JLabel Procesador1Lab;
+    private javax.swing.JLabel Procesador2Lab;
+    private javax.swing.JLabel Procesador3Lab;
+    private javax.swing.JLabel ProcessP1Lab;
+    private javax.swing.JLabel ProcessP2Lab;
+    private javax.swing.JLabel ProcessP3Lab;
     private javax.swing.JLabel ProcessReadyLab;
     private javax.swing.JList<String> ProcessReadyList;
     private javax.swing.JLabel TimerLab;
