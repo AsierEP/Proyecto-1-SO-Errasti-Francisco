@@ -498,6 +498,11 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
+        <Component class="javax.swing.JLabel" name="EjecutandoP1Lab">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Ejecutando:"/>
+          </Properties>
+        </Component>
         <Component class="javax.swing.JLabel" name="Procesador1Lab">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -507,11 +512,6 @@
               <Color blue="0" green="0" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="[APAGADO]"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="EjecutandoP1Lab">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Ejecutando:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="ProcessP1Lab">

@@ -191,8 +191,8 @@ public class MainUI extends javax.swing.JFrame {
         NameP2Lab = new javax.swing.JLabel();
         NameP3Lab = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        Procesador1Lab = new javax.swing.JLabel();
         EjecutandoP1Lab = new javax.swing.JLabel();
+        Procesador1Lab = new javax.swing.JLabel();
         ProcessP1Lab = new javax.swing.JLabel();
         OwnerP1Lab = new javax.swing.JLabel();
         PCP1Lab = new javax.swing.JLabel();
@@ -352,11 +352,11 @@ public class MainUI extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
 
+        EjecutandoP1Lab.setText("Ejecutando:");
+
         Procesador1Lab.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         Procesador1Lab.setForeground(new java.awt.Color(255, 0, 0));
         Procesador1Lab.setText("[APAGADO]");
-
-        EjecutandoP1Lab.setText("Ejecutando:");
 
         ProcessP1Lab.setText("\"\"");
 
