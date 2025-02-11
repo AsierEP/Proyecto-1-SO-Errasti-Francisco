@@ -46,20 +46,34 @@ public class MainUI extends javax.swing.JFrame {
             }
         });
         
+        
+        //Ocultar labels invisibles:
+        EjecutandoP1Lab.setVisible(false);
+        ProcessP1Lab.setVisible(false);
+        OwnerP1Lab.setVisible(false);
+        PCP1Lab.setVisible(false);
+        InstrucP1Lab.setVisible(false);
+        EjecutandoP2Lab.setVisible(false);
+        ProcessP2Lab.setVisible(false);
+        OwnerP2Lab.setVisible(false);
+        PCP2Lab.setVisible(false);
+        InstrucP2Lab.setVisible(false);
+        EjecutandoP3Lab.setVisible(false);
+        ProcessP3Lab.setVisible(false);
+        OwnerP3Lab.setVisible(false);
+        PCP3Lab.setVisible(false);
+        InstrucP3Lab.setVisible(false);
+        
             String[] partes = documento.split(",");
-    int numero = Integer.parseInt(partes[1].trim()); // Número después de la coma
+    int numero = Integer.parseInt(partes[1].trim());
 
-    // Lógica para cambiar los labels según el número
     switch (numero) {
         case 0:
-            // No se realiza ningún cambio
             break;
         case 1:
-            // Cambiar Procesador1Lab a "[ENCENDIDO]" y color verde
             Procesador1Lab.setText("[ENCENDIDO]");
-            Procesador1Lab.setForeground(new java.awt.Color(0, 128, 0)); // Verde
+            Procesador1Lab.setForeground(new java.awt.Color(0, 128, 0));
 
-            // Hacer visibles los labels de P1
             EjecutandoP1Lab.setVisible(true);
             ProcessP1Lab.setVisible(true);
             OwnerP1Lab.setVisible(true);
@@ -67,13 +81,11 @@ public class MainUI extends javax.swing.JFrame {
             InstrucP1Lab.setVisible(true);
             break;
         case 2:
-            // Cambiar Procesador1Lab y Procesador2Lab a "[ENCENDIDO]" y color verde
             Procesador1Lab.setText("[ENCENDIDO]");
-            Procesador1Lab.setForeground(new java.awt.Color(0, 128, 0)); // Verde
+            Procesador1Lab.setForeground(new java.awt.Color(0, 128, 0));
             Procesador2Lab.setText("[ENCENDIDO]");
-            Procesador2Lab.setForeground(new java.awt.Color(0, 128, 0)); // Verde
+            Procesador2Lab.setForeground(new java.awt.Color(0, 128, 0));
 
-            // Hacer visibles los labels de P1 y P2
             EjecutandoP1Lab.setVisible(true);
             ProcessP1Lab.setVisible(true);
             OwnerP1Lab.setVisible(true);
@@ -87,15 +99,13 @@ public class MainUI extends javax.swing.JFrame {
             InstrucP2Lab.setVisible(true);
             break;
         case 3:
-            // Cambiar Procesador1Lab, Procesador2Lab y Procesador3Lab a "[ENCENDIDO]" y color verde
             Procesador1Lab.setText("[ENCENDIDO]");
-            Procesador1Lab.setForeground(new java.awt.Color(0, 128, 0)); // Verde
+            Procesador1Lab.setForeground(new java.awt.Color(0, 128, 0));
             Procesador2Lab.setText("[ENCENDIDO]");
-            Procesador2Lab.setForeground(new java.awt.Color(0, 128, 0)); // Verde
+            Procesador2Lab.setForeground(new java.awt.Color(0, 128, 0));
             Procesador3Lab.setText("[ENCENDIDO]");
-            Procesador3Lab.setForeground(new java.awt.Color(0, 128, 0)); // Verde
+            Procesador3Lab.setForeground(new java.awt.Color(0, 128, 0));
 
-            // Hacer visibles los labels de P1, P2 y P3
             EjecutandoP1Lab.setVisible(true);
             ProcessP1Lab.setVisible(true);
             OwnerP1Lab.setVisible(true);
@@ -115,27 +125,9 @@ public class MainUI extends javax.swing.JFrame {
             InstrucP3Lab.setVisible(true);
             break;
         default:
-            // Manejo de casos no esperados
             System.out.println("Número no válido en documento: " + numero);
             break;
     }
-        
-        
-        EjecutandoP1Lab.setVisible(false);
-        ProcessP1Lab.setVisible(false);
-        OwnerP1Lab.setVisible(false);
-        PCP1Lab.setVisible(false);
-        InstrucP1Lab.setVisible(false);
-        EjecutandoP2Lab.setVisible(false);
-        ProcessP2Lab.setVisible(false);
-        OwnerP2Lab.setVisible(false);
-        PCP2Lab.setVisible(false);
-        InstrucP2Lab.setVisible(false);
-        EjecutandoP3Lab.setVisible(false);
-        ProcessP3Lab.setVisible(false);
-        OwnerP3Lab.setVisible(false);
-        PCP3Lab.setVisible(false);
-        InstrucP3Lab.setVisible(false);
     }
     
     private void StartTimer(){
@@ -305,12 +297,11 @@ public class MainUI extends javax.swing.JFrame {
                                 .addComponent(PCP2Lab)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(InstrucP2Lab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(OwnerP2Lab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addComponent(EjecutandoP2Lab)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(ProcessP2Lab, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(OwnerP2Lab, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(EjecutandoP2Lab)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ProcessP2Lab, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(32, 32, 32))))
         );
         jPanel3Layout.setVerticalGroup(
@@ -325,7 +316,7 @@ public class MainUI extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(OwnerP2Lab)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(PCP2Lab)
                     .addComponent(InstrucP2Lab))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -482,7 +473,6 @@ public class MainUI extends javax.swing.JFrame {
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addContainerGap(72, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(ConfiguracionButt)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton1)
