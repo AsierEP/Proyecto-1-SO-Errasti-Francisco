@@ -35,6 +35,8 @@ public class MainUI extends javax.swing.JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
         
+        UpdateReady();
+        
         increase = Integer.parseInt(documento.split(",")[0].trim());
 
                 
