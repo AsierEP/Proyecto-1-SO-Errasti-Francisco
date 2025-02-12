@@ -54,4 +54,17 @@ public class Cola {
         public int GetSize(){
             return size;
         }
+        
+        public String print() {
+        String resultado = "";
+        Node actual = pfirst;
+        for (int i = 0; i < size; i++) {
+            if (actual != null) {
+                Proceso proceso = actual.getNodo();
+                resultado += proceso.print()+"\n\n";
+                actual = actual.getPnext();
+            }
+        }
+        return resultado;
+    }
 }

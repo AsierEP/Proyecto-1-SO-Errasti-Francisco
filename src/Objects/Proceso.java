@@ -13,8 +13,8 @@ public class Proceso {
     private int id;
     private String nombre;
     private int numeroInstrucciones;
-    private int ciclosParaGenerarExcepcion;
-    private int ciclosParaSatisfacerExcepcion;
+    private int inicioExcepcion;
+    private int terminarExcepcion;
     private String tipo;
     private int prioridad;
     private String estado;
@@ -34,12 +34,12 @@ public class Proceso {
     }
     
     //I/O Bound
-    public Proceso(String nombre, int numeroInstrucciones, String tipo, int prioridad, int ciclosParaGenerarexcepcion, int ciclosParaSatisfacerexcepcion) {
+    public Proceso(String nombre, int numeroInstrucciones, String tipo, int prioridad, int inicioExcepcion, int terminarExcepcion) {
         this.id = ++contadorID;
         this.nombre = nombre;
         this.numeroInstrucciones = numeroInstrucciones;
-        this.ciclosParaGenerarExcepcion= ciclosParaGenerarexcepcion;
-        this.ciclosParaSatisfacerExcepcion= ciclosParaSatisfacerexcepcion;
+        this.inicioExcepcion= inicioExcepcion;
+        this.terminarExcepcion= terminarExcepcion;
         this.tipo = tipo;
         this.prioridad = prioridad;
         this.estado = "Listo";
@@ -58,22 +58,23 @@ public class Proceso {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+    public int getInicioExcepcion() {
+        return inicioExcepcion;
+    }
+
+    public void setInicioExcepcion(int inicioExcepcion) {
+        this.inicioExcepcion = inicioExcepcion;
+    }
+
+    public int getTerminarExcepcion() {
+        return terminarExcepcion;
+    }
+
+    public void setTerminarExcepcion(int terminarExcepcion) {
+        this.terminarExcepcion = terminarExcepcion;
+    }
     
-    public int getCiclosParaGenerarExcepcion() {
-        return ciclosParaGenerarExcepcion;
-    }
-
-    public void setCiclosParaGenerarExcepcion(int ciclosParaGenerarExcepcion) {
-        this.ciclosParaGenerarExcepcion = ciclosParaGenerarExcepcion;
-    }
-
-    public int getCiclosParaSatisfacerExcepcion() {
-        return ciclosParaSatisfacerExcepcion;
-    }
-
-    public void setCiclosParaSatisfacerExcepcion(int ciclosParaSatisfacerExcepcion) {
-        this.ciclosParaSatisfacerExcepcion = ciclosParaSatisfacerExcepcion;
-    }
 
     public int getNumeroInstrucciones() {
         return numeroInstrucciones;
