@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import static java.lang.Thread.sleep;
 import javax.swing.Timer;
 import proyecto.pkg1.so.errasti.francisco.LoadArchiveUI.*;
 import static proyecto.pkg1.so.errasti.francisco.ProcessConfUI.colalistos;
@@ -26,6 +27,10 @@ public class MainUI extends javax.swing.JFrame {
     private int increase;
     private String documento;
     private Proceso ProcesoAEjecutar;
+    private int instruccionactual1 = 0;
+    private int instruccionactual2 = 0;
+    private int instruccionactual3 = 0;
+
     Cola colaR = colalistos;
     Procesador P1;
     Procesador P2;
@@ -62,6 +67,8 @@ public class MainUI extends javax.swing.JFrame {
                 
         mTimer = new Timer(increase*1000, (ActionEvent e) -> {
             StartTimer();
+            AsignarProcesoAEjecutar();
+            EjecutandoP1();
         });
         
         addWindowListener(new WindowAdapter() {
@@ -89,6 +96,7 @@ public class MainUI extends javax.swing.JFrame {
             
             P1TA.setVisible(true);
             
+            EjecutandoP1();
             break;
         case 2:
             Procesador1Lab.setText("[ENCENDIDO]");
@@ -99,6 +107,8 @@ public class MainUI extends javax.swing.JFrame {
             P1TA.setVisible(true);
             P2TA.setVisible(true);
             
+            EjecutandoP1();
+
             break;
         case 3:
             Procesador1Lab.setText("[ENCENDIDO]");
@@ -126,6 +136,7 @@ public class MainUI extends javax.swing.JFrame {
     
     private void updateTime(){
         ciclos++;
+        instruccionactual1++;
     }
     
     private void updateLabel(){
@@ -165,10 +176,28 @@ public class MainUI extends javax.swing.JFrame {
             System.out.println("No hay procesos en la cola para asignar.");
             ProcesoAEjecutar = null;
         }
-        } else {
+    } else {
         ProcesoAEjecutar = null;
         }
     }
+    
+public void EjecutandoP1() {
+    if (ProcesoAEjecutar == null) {
+        P1TA.setText("Ejecutando: SO \nInstrucción: SO \n");
+    } else {
+        P1TA.setText("Ejecutando: " + ProcesoAEjecutar.getNombre() + "\nInstrucción: " + instruccionactual1);
+
+        if (ProcesoAEjecutar.getTipo().equals("I/O Bound")) {
+            if (instruccionactual1 >= ProcesoAEjecutar.getInicioExcepcion()) {
+                ProcesoAEjecutar = null;
+            }
+        } else if (ProcesoAEjecutar.getTipo().equals("CPU Bound")) {
+            if (instruccionactual1 >= ProcesoAEjecutar.getNumeroInstrucciones()) {
+                ProcesoAEjecutar = null;
+            }
+        }
+    }
+}
     
     public void EjecutarFIFO() {
     if (ProcesoAEjecutar != null) {
