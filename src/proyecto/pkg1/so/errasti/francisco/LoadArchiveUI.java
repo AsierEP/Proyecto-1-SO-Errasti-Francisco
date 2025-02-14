@@ -124,9 +124,9 @@ public class LoadArchiveUI extends javax.swing.JFrame {
             archivo = choose.getSelectedFile();
             if (archivo.canRead()) {
                 if (archivo.getName().endsWith("txt")) {
-                    documento = AbrirArchivo(archivo); // Leer el archivo y guardar el contenido en documento
-                    this.setVisible(false); // Ocultar LoadArchiveUI
-                    new MainUI(documento).setVisible(true); // Pasar documento a MainUI
+                    documento = AbrirArchivo(archivo);
+                    this.setVisible(false);
+                    new MainUI(documento).setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(null, "Archivo no válido");
                 }

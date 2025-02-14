@@ -60,7 +60,7 @@ public class Procesador extends Thread {
         while (proceso.getNumeroInstrucciones() > 0) {
             try {
                 this.simulacion.getMomento().UpdateTextAreas("ID: "+ this.procesoActual.getId()+", STATUS: "+this.procesoActual.getEstado()+", Nombre: "+this.procesoActual.getNombre()+", PC: "+this.procesoActual.getPC()+", MAR: "+this.procesoActual.getMAR(),this.num);
-                Thread.sleep(cicloReloj); // Simular la ejecución de una instrucción (ajustado al ciclo de reloj)
+                Thread.sleep(cicloReloj);
                 proceso.setNumeroInstrucciones(proceso.getNumeroInstrucciones()-1);
                 ciclosEjecutados++;
                 this.procesoActual.setPC(this.procesoActual.getPC()+1);
@@ -71,7 +71,7 @@ public class Procesador extends Thread {
         }
         System.out.println("Procesador " + num + " terminó el proceso: " + proceso.getNombre());
         this.simulacion.getMomento().UpdateTextAreas("S.O.",this.num);
-        procesoActual = null; // Liberar el procesador
+        procesoActual = null;
     }
 
     public void detener() {
@@ -85,13 +85,9 @@ public class Procesador extends Thread {
     public boolean estaActivo() {
         return estado;
     }
+    
 
     public int getCicloReloj() {
         return cicloReloj;
-    }
-
-    public synchronized void setCicloReloj(int cicloReloj) {
-        this.cicloReloj = cicloReloj; // Permitir cambiar el ciclo de reloj dinámicamente
-        System.out.println("Procesador " + num + ": Ciclo de reloj actualizado a " + cicloReloj + " ms.");
     }
 }
