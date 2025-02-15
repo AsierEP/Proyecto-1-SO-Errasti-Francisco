@@ -32,6 +32,9 @@ public class MainUI extends javax.swing.JFrame {
     private int instruccionactual3 = 0;
 
     Cola colaR = colalistos;
+    Cola colaT;
+    Cola colaB;
+    
     Procesador P1;
     Procesador P2;
     Procesador P3;    
@@ -137,11 +140,14 @@ public class MainUI extends javax.swing.JFrame {
     private void updateTime(){
         ciclos++;
         instruccionactual1++;
+        
     }
     
     private void updateLabel(){
         String cronometro = ciclos + " ciclos";
         TimerLab.setText(cronometro);
+        AsignarProcesoAEjecutar();
+        EjecutandoP1();
     }
     
     public void UpdateReady(){
@@ -169,31 +175,34 @@ public class MainUI extends javax.swing.JFrame {
     }
     
     public void AsignarProcesoAEjecutar() {
-    if (FIFOPolButt.isSelected()) {
-        if (!colaR.IsEmpty()) {
-            ProcesoAEjecutar = colaR.RemoveElement();
+    if (ProcesoAEjecutar == null) { // Solo asignar si no hay un proceso en ejecución
+        if (!colaR.IsEmpty()) { // Verificar si hay procesos en la cola de listos
+            ProcesoAEjecutar = colaR.RemoveElement(); // Asignar el primer proceso de la cola
+            System.out.println("Proceso asignado a P1: " + ProcesoAEjecutar.getNombre());
         } else {
-            System.out.println("No hay procesos en la cola para asignar.");
-            ProcesoAEjecutar = null;
-        }
-    } else {
-        ProcesoAEjecutar = null;
+            System.out.println("No hay procesos en la cola de listos.");
         }
     }
+}
     
-public void EjecutandoP1() {
+    public void EjecutandoP1() {
     if (ProcesoAEjecutar == null) {
+        // Si no hay proceso asignado, mostrar que el sistema operativo está ejecutándose
         P1TA.setText("Ejecutando: SO \nInstrucción: SO \n");
     } else {
+        // Mostrar información del proceso en ejecución
         P1TA.setText("Ejecutando: " + ProcesoAEjecutar.getNombre() + "\nInstrucción: " + instruccionactual1);
 
+        // Verificar el tipo de proceso y sus límites
         if (ProcesoAEjecutar.getTipo().equals("I/O Bound")) {
             if (instruccionactual1 >= ProcesoAEjecutar.getInicioExcepcion()) {
-                ProcesoAEjecutar = null;
+                System.out.println("Proceso " + ProcesoAEjecutar.getNombre() + " terminado (I/O Bound).");
+                ProcesoAEjecutar = null; // Liberar el procesador
             }
         } else if (ProcesoAEjecutar.getTipo().equals("CPU Bound")) {
             if (instruccionactual1 >= ProcesoAEjecutar.getNumeroInstrucciones()) {
-                ProcesoAEjecutar = null;
+                System.out.println("Proceso " + ProcesoAEjecutar.getNombre() + " terminado (CPU Bound).");
+                ProcesoAEjecutar = null; // Liberar el procesador
             }
         }
     }
