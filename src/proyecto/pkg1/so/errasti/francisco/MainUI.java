@@ -5,8 +5,15 @@
 package proyecto.pkg1.so.errasti.francisco;
 
 import EDD.Cola;
+import static proyecto.pkg1.so.errasti.francisco.ProcessConfUI.colalistos;
+import Objects.BIOS;
 import Objects.Procesador;
 import Objects.Proceso;
+import EDD.Semaforo;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -14,151 +21,91 @@ import java.awt.event.WindowEvent;
 import static java.lang.Thread.sleep;
 import javax.swing.Timer;
 import proyecto.pkg1.so.errasti.francisco.LoadArchiveUI.*;
-import static proyecto.pkg1.so.errasti.francisco.ProcessConfUI.colalistos;
 
 /**
  *
  * @author Dell
  */
-public class MainUI extends javax.swing.JFrame {
+public final class MainUI extends javax.swing.JFrame {
     
-    private int ciclos;
-    private Timer mTimer;
-    private int increase;
     private String documento;
-    private Proceso ProcesoAEjecutar;
-    private int instruccionactual1 = 0;
-    private int instruccionactual2 = 0;
-    private int instruccionactual3 = 0;
-
-    Cola colaR = colalistos;
+    Cola colaL = colalistos;
     Cola colaT;
     Cola colaB;
-    
+    Semaforo s = new Semaforo();
+    int cicloreloj;
     Procesador P1;
     Procesador P2;
-    Procesador P3;    
-    MainUI momento = this;
+    Procesador P3;
+    BIOS bios;
+    
+    public int getCicloreloj() {
+        return cicloreloj;
+    }
 
-    /**
-     * Creates new form MainUI
-     */
+    public void setCicloreloj(int cicloreloj) {
+        this.cicloreloj = cicloreloj;
+    }
+    
     public MainUI(String documento) {
-        this.documento = documento;
         initComponents();
-        setSize(1500, 800);
-        setResizable(false);
-        setLocationRelativeTo(null);
-        
-        this.P1TA.setEditable(false);
-        this.P2TA.setEditable(false);
-        this.P3TA.setEditable(false);
+        actualizarListos();
         this.ProcessReadyList.setEditable(false);
         this.ProcessBlockedList.setEditable(false);
         this.ProcessFinishedList.setEditable(false);
+        this.P1TA.setEditable(false);
+        cargarProcesadores();
+        this.colaT = new Cola();
+        this.colaB = new Cola();
+    }
+    
+    MainUI instancia = this;
 
-        PoliticasButts.add(FIFOPolButt);
-        PoliticasButts.add(jRadioButton2);
-        PoliticasButts.add(jRadioButton3);
-        PoliticasButts.add(jRadioButton4);
-        PoliticasButts.add(jRadioButton5);
-        FIFOPolButt.setSelected(true);
-        UpdateReady();
-        
-        increase = Integer.parseInt(documento.split(",")[0].trim());
 
-                
-        mTimer = new Timer(increase*1000, (ActionEvent e) -> {
-            StartTimer();
-            AsignarProcesoAEjecutar();
-            EjecutandoP1();
-        });
-        
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowOpened(WindowEvent e) {
-                mTimer.start();
-            }
-        });
-        
-        
-        //Ocultar labels invisibles:
-        P1TA.setVisible(false);
-        P2TA.setVisible(false);
-        P3TA.setVisible(false);
-        
-            String[] partes = documento.split(",");
-    int numero = Integer.parseInt(partes[1].trim());
-
-    switch (numero) {
-        case 0:
-            break;
-        case 1:
-            Procesador1Lab.setText("[ENCENDIDO]");
-            Procesador1Lab.setForeground(new java.awt.Color(0, 128, 0));
-            
-            P1TA.setVisible(true);
-            
-            EjecutandoP1();
-            break;
-        case 2:
-            Procesador1Lab.setText("[ENCENDIDO]");
-            Procesador1Lab.setForeground(new java.awt.Color(0, 128, 0));
-            Procesador2Lab.setText("[ENCENDIDO]");
-            Procesador2Lab.setForeground(new java.awt.Color(0, 128, 0));
-            
-            P1TA.setVisible(true);
-            P2TA.setVisible(true);
-            
-            EjecutandoP1();
-
-            break;
-        case 3:
-            Procesador1Lab.setText("[ENCENDIDO]");
-            Procesador1Lab.setForeground(new java.awt.Color(0, 128, 0));
-            Procesador2Lab.setText("[ENCENDIDO]");
-            Procesador2Lab.setForeground(new java.awt.Color(0, 128, 0));
-            Procesador3Lab.setText("[ENCENDIDO]");
-            Procesador3Lab.setForeground(new java.awt.Color(0, 128, 0));
-
-            P1TA.setVisible(true);
-            P2TA.setVisible(true);
-            P3TA.setVisible(true);
-            
-            break;
-        default:
-            System.out.println("Número no válido en documento: " + numero);
-            break;
-    }
+    public void actualizarListos(){
+        ProcessReadyList.setText(colaL.print());
     }
     
-    private void StartTimer(){
-        updateTime();
-        updateLabel();
+    public void addListos(Proceso p){
+        colaL.AddElement(p);
+        ProcessReadyList.setText(colaL.print());
+        ProcessBlockedList.setText(colaB.print());
     }
     
-    private void updateTime(){
-        ciclos++;
-        instruccionactual1++;
-        
+    public void actualizarTerminados(Proceso t){
+        colaT.AddElement(t);
+        ProcessFinishedList.setText(colaT.print());
     }
     
-    private void updateLabel(){
-        String cronometro = ciclos + " ciclos";
-        TimerLab.setText(cronometro);
-        AsignarProcesoAEjecutar();
-        EjecutandoP1();
+    public void actualizarBloqueados(Proceso t){
+        colaB.AddElement(t);
+        ProcessBlockedList.setText(colaB.print());
     }
     
-    public void UpdateReady(){
-        this.ProcessReadyList.setText(colaR.print());
+    public Cola getBloqueados(){
+        return colaB;
     }
     
-    public MainUI getMomento() {
-        return momento;
+    
+    public void actualizarCiclo(){
+        P1.setCicloReloj(cicloreloj);
+        P2.setCicloReloj(cicloreloj);
     }
     
-    public void UpdateTextAreas(String texto,int id) {
+    private void cargarProcesadores(){
+        P1 = new Procesador(1,colaL,s,4000,this);
+        P1.start();
+        P2 = new Procesador(2,colaL,s,4000,this);
+        P2.start();
+        this.bios=new BIOS(this);
+        bios.start();
+    }
+    
+    public MainUI getInstancia() {
+        return instancia;
+    }
+    
+    public void actualizarTextoArea(String texto,int id) {
         if(id==1){
             javax.swing.SwingUtilities.invokeLater(() -> {
                 P1TA.setText(texto);
@@ -172,51 +119,9 @@ public class MainUI extends javax.swing.JFrame {
                 P3TA.setText(texto);
             });
         }
+        
     }
     
-    public void AsignarProcesoAEjecutar() {
-    if (ProcesoAEjecutar == null) { // Solo asignar si no hay un proceso en ejecución
-        if (!colaR.IsEmpty()) { // Verificar si hay procesos en la cola de listos
-            ProcesoAEjecutar = colaR.RemoveElement(); // Asignar el primer proceso de la cola
-            System.out.println("Proceso asignado a P1: " + ProcesoAEjecutar.getNombre());
-        } else {
-            System.out.println("No hay procesos en la cola de listos.");
-        }
-    }
-}
-    
-    public void EjecutandoP1() {
-    if (ProcesoAEjecutar == null) {
-        // Si no hay proceso asignado, mostrar que el sistema operativo está ejecutándose
-        P1TA.setText("Ejecutando: SO \nInstrucción: SO \n");
-    } else {
-        // Mostrar información del proceso en ejecución
-        P1TA.setText("Ejecutando: " + ProcesoAEjecutar.getNombre() + "\nInstrucción: " + instruccionactual1);
-
-        // Verificar el tipo de proceso y sus límites
-        if (ProcesoAEjecutar.getTipo().equals("I/O Bound")) {
-            if (instruccionactual1 >= ProcesoAEjecutar.getInicioExcepcion()) {
-                System.out.println("Proceso " + ProcesoAEjecutar.getNombre() + " terminado (I/O Bound).");
-                ProcesoAEjecutar = null; // Liberar el procesador
-            }
-        } else if (ProcesoAEjecutar.getTipo().equals("CPU Bound")) {
-            if (instruccionactual1 >= ProcesoAEjecutar.getNumeroInstrucciones()) {
-                System.out.println("Proceso " + ProcesoAEjecutar.getNombre() + " terminado (CPU Bound).");
-                ProcesoAEjecutar = null; // Liberar el procesador
-            }
-        }
-    }
-}
-    
-    public void EjecutarFIFO() {
-    if (ProcesoAEjecutar != null) {
-        System.out.println("Ejecutando proceso: " + ProcesoAEjecutar.getNombre());
-        // Aquí puedes agregar la lógica para ejecutar el proceso
-        UpdateReady();
-    } else {
-        System.out.println("No hay ningún proceso asignado para ejecutar.");
-    }
-    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -240,8 +145,6 @@ public class MainUI extends javax.swing.JFrame {
         P2TA = new javax.swing.JTextArea();
         ProcessReadyLab = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        CiclosLab = new javax.swing.JLabel();
-        TimerLab = new javax.swing.JLabel();
         NameP1Lab = new javax.swing.JLabel();
         NameP2Lab = new javax.swing.JLabel();
         NameP3Lab = new javax.swing.JLabel();
@@ -256,12 +159,10 @@ public class MainUI extends javax.swing.JFrame {
         ProcessBlockedList = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         ProcessFinishedList = new javax.swing.JTextArea();
-        FIFOPolButt = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jRadioButton4 = new javax.swing.JRadioButton();
-        jRadioButton5 = new javax.swing.JRadioButton();
         jLabel3 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(1500, 800));
@@ -345,11 +246,6 @@ public class MainUI extends javax.swing.JFrame {
 
         jLabel1.setText("Procesos Bloqueados:");
 
-        CiclosLab.setText("Ciclo actual:");
-
-        TimerLab.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        TimerLab.setText("0 ciclos");
-
         NameP1Lab.setText("Procesador 1");
 
         NameP2Lab.setText("Procesador 2");
@@ -403,17 +299,13 @@ public class MainUI extends javax.swing.JFrame {
         ProcessFinishedList.setRows(5);
         jScrollPane2.setViewportView(ProcessFinishedList);
 
-        FIFOPolButt.setText("FIFO");
+        jLabel3.setText("Ciclo Actual:");
 
-        jRadioButton2.setText("jRadioButton2");
+        jButton2.setText("Modificación ciclos");
 
-        jRadioButton3.setText("jRadioButton3");
+        jLabel4.setText("Política de vaciado:");
 
-        jRadioButton4.setText("jRadioButton4");
-
-        jRadioButton5.setText("jRadioButton5");
-
-        jLabel3.setText("Politicas de planificación (Tomará efecto en el siguiente ciclo de instrucción)");
+        jButton3.setText("Políticas de vaciado");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -435,6 +327,7 @@ public class MainUI extends javax.swing.JFrame {
                         .addComponent(NameP3Lab)
                         .addGap(269, 269, 269)
                         .addComponent(ProcessReadyLab)))
+                .addGap(79, 79, 79)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -445,31 +338,20 @@ public class MainUI extends javax.swing.JFrame {
                                 .addComponent(jLabel2)
                                 .addGap(78, 78, 78))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(29, 29, 29)
-                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(29, 29, 29)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(41, 41, 41))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(119, 119, 119)
-                                .addComponent(jRadioButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jRadioButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(67, 67, 67)
-                                .addComponent(FIFOPolButt, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jRadioButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(47, 47, 47)
-                                .addComponent(jLabel3)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -480,11 +362,7 @@ public class MainUI extends javax.swing.JFrame {
                 .addComponent(NameP1Lab)
                 .addGap(287, 287, 287)
                 .addComponent(NameP2Lab)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(CiclosLab)
-                .addGap(26, 26, 26)
-                .addComponent(TimerLab)
-                .addGap(102, 102, 102))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -509,15 +387,13 @@ public class MainUI extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addContainerGap(101, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(30, 30, 30)
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
-                                .addComponent(jLabel3)
-                                .addGap(114, 114, 114)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton1)
                                 .addGap(74, 74, 74))))
                     .addGroup(layout.createSequentialGroup()
@@ -525,23 +401,18 @@ public class MainUI extends javax.swing.JFrame {
                         .addComponent(NameP3Lab)
                         .addGap(0, 0, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
-                .addGap(44, 44, 44)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(CiclosLab)
-                    .addComponent(TimerLab))
-                .addGap(5, 5, 5)
+                .addGap(74, 74, 74)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(73, 73, 73)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(FIFOPolButt)
-                    .addComponent(jRadioButton2)
-                    .addComponent(jRadioButton3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton4)
-                    .addComponent(jRadioButton5))
+                .addGap(58, 58, 58)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton2)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel4)
+                .addGap(18, 18, 18)
+                .addComponent(jButton3)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -592,8 +463,6 @@ public class MainUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel CiclosLab;
-    private javax.swing.JRadioButton FIFOPolButt;
     private javax.swing.JLabel NameP1Lab;
     private javax.swing.JLabel NameP2Lab;
     private javax.swing.JLabel NameP3Lab;
@@ -608,19 +477,17 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JTextArea ProcessFinishedList;
     private javax.swing.JLabel ProcessReadyLab;
     private javax.swing.JTextArea ProcessReadyList;
-    private javax.swing.JLabel TimerLab;
     private javax.swing.JLabel TittleLab;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
-    private javax.swing.JRadioButton jRadioButton5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;

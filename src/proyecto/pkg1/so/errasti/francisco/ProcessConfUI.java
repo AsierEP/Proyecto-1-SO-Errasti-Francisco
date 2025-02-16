@@ -12,12 +12,17 @@ import javax.swing.ButtonGroup;
  * @author Dell
  */
 public class ProcessConfUI extends javax.swing.JFrame {
+   
     
-    private String documento;
     static Cola colalistos = new Cola();
+    private String tipot = "CPU Bound";
+    private String documento;
 
+
+
+    
     /**
-     * Creates new form ProcessConfUI
+     * Creates new form CreacionProceso
      */
     public ProcessConfUI(String documento) {
         this.documento = documento;
@@ -68,6 +73,13 @@ public class ProcessConfUI extends javax.swing.JFrame {
         Lab2.setVisible(false);
         Lab3.setVisible(false);
         CantInstIOTF.setVisible(false);
+    }
+    
+    
+    public void clear(){
+        this.NameTF.setText("");
+        this.PriorityTF.setText("");
+        this.CantInstTF.setText("");
     }
 
     /**

@@ -67,4 +67,13 @@ public class Cola {
         }
         return resultado;
     }
+        
+    public Node getpfirst(){
+        return this.pfirst;
+    }
+
+    public void setFrente(Node pfirst) {
+        this.pfirst = pfirst;
+    }
+    
 }

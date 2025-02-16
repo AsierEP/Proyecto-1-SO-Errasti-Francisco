@@ -15,18 +15,17 @@ public class Semaforo {
         this.counter = 1;
     }
     //S.Signal
-    public synchronized void liberar() {
+    public synchronized void Ssignal() {
         counter++;
         notify();
     }
     //S.Wait()
-    public synchronized void adquirir() {
+    public synchronized void Swait() {
         while (counter == 0) {
             try {
                 wait();
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                System.out.println("interrupción mientras esperaba el semáforo.");
             }
         }
         counter--;

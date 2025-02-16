@@ -18,8 +18,8 @@ public class Procesador extends Thread {
     private Cola colaListos;
     private Semaforo semaforo;
     private boolean estado;
-    private int ciclosEjecutados;
-    private int cicloReloj;
+    private int ciclosprocesador;
+    static int cicloReloj;
     private MainUI simulacion;
 
     public Procesador(int id, Cola colaListos, Semaforo semaforo, int cicloReloj,MainUI simulacion) {
@@ -27,7 +27,7 @@ public class Procesador extends Thread {
         this.colaListos = colaListos;
         this.semaforo = semaforo;
         this.estado = true;
-        this.ciclosEjecutados = 0;
+        this.ciclosprocesador = 0;
         this.cicloReloj = cicloReloj; 
         this.simulacion = simulacion;
     }
@@ -36,18 +36,19 @@ public class Procesador extends Thread {
     public void run() {
         while (estado) {
             try {
-                semaforo.adquirir();
+                semaforo.Swait();
                 if (!colaListos.IsEmpty()) {
                     procesoActual = colaListos.RemoveElement();
                     procesoActual.setEstado("Running");
-                    this.simulacion.UpdateReady();
+                    this.simulacion.actualizarListos();
                 }
-                semaforo.liberar();
+                semaforo.Ssignal();
 
                 if (procesoActual != null) {
                     ejecutarProceso(procesoActual);
                 } else {
-                    Thread.sleep(50);
+                    Thread.sleep(cicloReloj);
+                    ciclosprocesador++;
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -56,38 +57,78 @@ public class Procesador extends Thread {
     }
 
     private void ejecutarProceso(Proceso proceso) {
-        System.out.println("Procesador " + num + " ejecutando proceso: " + proceso.getNombre());
-        while (proceso.getNumeroInstrucciones() > 0) {
+        if("CPU Bound".equals(proceso.getTipo())||proceso.IOComplete()){
+            System.out.println("Procesador " + num + " ejecutando proceso: " + proceso.getNombre());
+            while (proceso.getInsfaltantes()> 0) {
+                try {
+                    this.simulacion.getInstancia().actualizarTextoArea("ID: "+ this.procesoActual.getId()+", STATUS: "+this.procesoActual.getEstado()+", Nombre: "+this.procesoActual.getNombre()+", PC: "+this.procesoActual.getPC()+", MAR: "+this.procesoActual.getMAR(),this.num);
+                    Thread.sleep(cicloReloj);
+                    proceso.setInsfaltantes(proceso.getInsfaltantes()-1);
+                    ciclosprocesador++;
+                    this.procesoActual.setPC(this.procesoActual.getPC()+1);
+                    System.out.println("Procesador " + num + " ejecutó una instrucción. Instrucciones restantes: " + proceso.getInsfaltantes());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            System.out.println("Procesador " + num + " terminó el proceso: " + proceso.getNombre());
+            this.simulacion.getInstancia().actualizarTextoArea("Procesador tomado por \nel Sistema Operativo...",this.num);
+            procesoActual.setEstado("Finished");
+            this.simulacion.actualizarTerminados(procesoActual);
+            procesoActual = null;
             try {
-                this.simulacion.getMomento().UpdateTextAreas("ID: "+ this.procesoActual.getId()+", STATUS: "+this.procesoActual.getEstado()+", Nombre: "+this.procesoActual.getNombre()+", PC: "+this.procesoActual.getPC()+", MAR: "+this.procesoActual.getMAR(),this.num);
                 Thread.sleep(cicloReloj);
-                proceso.setNumeroInstrucciones(proceso.getNumeroInstrucciones()-1);
-                ciclosEjecutados++;
-                this.procesoActual.setPC(this.procesoActual.getPC()+1);
-                System.out.println("Procesador " + num + " ejecutó una instrucción. Instrucciones restantes: " + proceso.getNumeroInstrucciones());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }else{
+            if(!proceso.IOComplete()){
+                System.out.println("Procesador " + num + " ejecutando proceso: " + proceso.getNombre());
+                while (proceso.NoHaSucedidoInterrupcion()) {
+                    try {
+                        this.simulacion.getInstancia().actualizarTextoArea("ID: "+ this.procesoActual.getId()+", STATUS: "+this.procesoActual.getEstado()+", Nombre: "+this.procesoActual.getNombre()+", PC: "+this.procesoActual.getPC()+", MAR: "+this.procesoActual.getMAR(),this.num);
+                        Thread.sleep(cicloReloj);
+                        proceso.setInsfaltantes(proceso.getInsfaltantes()-1);
+                        ciclosprocesador++;
+                        this.procesoActual.setPC(this.procesoActual.getPC()+1);
+                        System.out.println("Procesador " + num + " ejecutó una instrucción. Instrucciones restantes: " + proceso.getInsfaltantes());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                this.simulacion.getInstancia().actualizarTextoArea("Procesador tomado por \nel Sistema Operativo...",this.num);
+                procesoActual.setEstado("Blocked");
+                this.simulacion.actualizarBloqueados(procesoActual);
+                procesoActual = null;
+                try {
+                    Thread.sleep(cicloReloj);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            
         }
-        System.out.println("Procesador " + num + " terminó el proceso: " + proceso.getNombre());
-        this.simulacion.getMomento().UpdateTextAreas("S.O.",this.num);
-        procesoActual = null;
     }
 
     public void detener() {
         this.estado = false;
     }
 
-    public int getCiclosEjecutados() {
-        return ciclosEjecutados;
+    public int getCiclosprocesador() {
+        return ciclosprocesador;
     }
 
-    public boolean estaActivo() {
+    public boolean getEstado() {
         return estado;
     }
     
 
     public int getCicloReloj() {
         return cicloReloj;
+    }
+    
+    public synchronized void setCicloReloj(int cicloReloj) {
+        this.cicloReloj = cicloReloj;
+        System.out.println("Procesador " + num + ": Ciclo de reloj actualizado a " + cicloReloj + " ms.");
     }
 }

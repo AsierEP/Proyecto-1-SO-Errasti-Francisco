@@ -12,20 +12,23 @@ public class Proceso {
     private static int contadorID = 0;
     private int id;
     private String nombre;
-    private int numeroInstrucciones;
+    private int insfaltantes;
+    private int instotales;
     private int inicioExcepcion;
-    private int terminarExcepcion;
+    private int finExcepcion;
     private String tipo;
     private int prioridad;
     private String estado;
     private int PC;
     private int MAR;
+    private boolean IO;
+    private int insblocked;
     
     //CPU Bound
-    public Proceso(String nombre, int numeroInstrucciones, String tipo, int prioridad) {
+    public Proceso(String nombre, int insfaltantes, String tipo, int prioridad) {
         this.id = ++contadorID;
         this.nombre = nombre;
-        this.numeroInstrucciones = numeroInstrucciones;
+        this.insfaltantes = insfaltantes;
         this.tipo = tipo;
         this.prioridad = prioridad;
         this.estado = "Listo";
@@ -34,17 +37,20 @@ public class Proceso {
     }
     
     //I/O Bound
-    public Proceso(String nombre, int numeroInstrucciones, String tipo, int prioridad, int inicioExcepcion, int terminarExcepcion) {
+    public Proceso(String nombre, int instotales, String tipo, int prioridad, int inicioExcepcion, int finalExcepcion) {
+        IO = false;
+        instotales = instotales;
         this.id = ++contadorID;
         this.nombre = nombre;
-        this.numeroInstrucciones = numeroInstrucciones;
+        this.insfaltantes = insfaltantes;
         this.inicioExcepcion= inicioExcepcion;
-        this.terminarExcepcion= terminarExcepcion;
+        this.finExcepcion= finExcepcion;
         this.tipo = tipo;
         this.prioridad = prioridad;
-        this.estado = "Listo";
+        this.estado = "Ready";
         this.PC = 1;
         this.MAR = PC -1;
+        this.insblocked=0;
     }
 
     public int getId() {
@@ -59,6 +65,14 @@ public class Proceso {
         this.nombre = nombre;
     }
 
+    public int getInsfaltantes() {
+        return insfaltantes;
+    }
+
+    public void setInsfaltantes(int insfaltantes) {
+        this.insfaltantes = insfaltantes;
+    }
+
     public int getInicioExcepcion() {
         return inicioExcepcion;
     }
@@ -67,22 +81,14 @@ public class Proceso {
         this.inicioExcepcion = inicioExcepcion;
     }
 
-    public int getTerminarExcepcion() {
-        return terminarExcepcion;
+    public int getFinExcepcion() {
+        return finExcepcion;
     }
 
-    public void setTerminarExcepcion(int terminarExcepcion) {
-        this.terminarExcepcion = terminarExcepcion;
+    public void setFinExcepcion(int finExcepcion) {
+        this.finExcepcion = finExcepcion;
     }
     
-
-    public int getNumeroInstrucciones() {
-        return numeroInstrucciones;
-    }
-
-    public void setNumeroInstrucciones(int numeroInstrucciones) {
-        this.numeroInstrucciones = numeroInstrucciones;
-    }
 
     public String getTipo() {
         return tipo;
@@ -128,5 +134,25 @@ public class Proceso {
     public String print() {
         String fin = "ID: " + this.id + ", Status: " + this.estado + ", Nombre: " + this.nombre + ", PC: " + this.PC + ", MAR: " + this.MAR;
         return fin;
+    }
+    
+    public boolean NoHaSucedidoInterrupcion(){
+        return ((this.instotales-this.insfaltantes)<this.inicioExcepcion);
+    }
+    
+    public boolean finalizadaES(){
+        if(insblocked==this.finExcepcion){
+            this.IO=true;
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean IOComplete(){
+        return IO;
+    }
+    
+    public void sumarCicloBloqueado(){
+        this.insblocked++;
     }
 }
