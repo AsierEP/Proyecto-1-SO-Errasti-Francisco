@@ -4,51 +4,117 @@
  */
 package proyecto.pkg1.so.errasti.francisco;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
+import EDD.Cola;
+import Objects.Simulacion;
+import EDD.Semaforo;
+import Objects.Proceso;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
  *
  * @author Dell
  */
 public class LoadArchiveUI extends javax.swing.JFrame {
-        JFileChooser choose = new JFileChooser();
-        File archivo;
-        FileInputStream entrada;
-        FileOutputStream salida;
-        
-        public String documento = "";
-
-
+    
+    private ProcessConfUI creacion;
     /**
      * Creates new form LoadArchiveUI
      */
     public LoadArchiveUI() {
         initComponents();
+        this.setVisible(true);
         this.setLocationRelativeTo(null);
+        this.setResizable(false);
+        this.creacion=new ProcessConfUI();
     }
     
-    public String getDocumento() {
-        return documento;
-    }
-    
-    public String AbrirArchivo (File archivo){
-        try{
-            entrada = new FileInputStream(archivo);
-            int ascci;
-            while ((ascci=entrada.read())!= -1){
-                char caracter = (char)ascci;
-                documento+=caracter;
-            }
-        }catch (Exception E){
-            
-        }
-        return documento;
-    }
+public MainUI restablecerEstado(String path) {
+    try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
+        Semaforo semaforo = null;
+        Cola colaL = null;
+        Cola colaT = null;
+        Cola colaB = null;
+        int cicloReloj = 0;
+        int numProcesadores = 0;
+        Proceso en1 = null;
+        Proceso en2 = null;
+        Proceso en3 = null;
 
+        String line;
+        while ((line = reader.readLine()) != null) {
+            if (line.startsWith("Semáforo: ")) {
+                semaforo = new Semaforo();
+            } else if (line.startsWith("Cola L: ")) {
+                colaL = new Cola();
+            } else if (line.startsWith("Cola T: ")) {
+                colaT = new Cola();
+            } else if (line.startsWith("Cola B: ")) {
+                colaB = new Cola();
+            } else if (line.startsWith("Ciclo Reloj: ")) {
+                cicloReloj = Integer.parseInt(line.substring(13).trim());
+            } else if (line.startsWith("Número de CPUs: ")) {
+                numProcesadores = Integer.parseInt(line.substring(16).trim());
+            } else if (line.startsWith("CPU1 Proceso Actual: ")) {
+                String procesoData = line.substring(21).trim();
+                if (!procesoData.equals("null")) {
+                    en1 = new Proceso("Proceso1", 10, "CPU", 1);
+                }
+            } else if (line.startsWith("CPU2 Proceso Actual: ")) {
+                String procesoData = line.substring(21).trim();
+                if (!procesoData.equals("null")) {
+                    en2 = new Proceso("Proceso2", 15, "CPU", 2);
+                }
+            } else if (line.startsWith("CPU3 Proceso Actual: ")) {
+                String procesoData = line.substring(21).trim();
+                if (!procesoData.equals("null")) {
+                    en3 = new Proceso("Proceso3", 20, "CPU", 3);
+                }
+            }
+        }
+
+        if (semaforo == null) semaforo = new Semaforo();
+        if (colaL == null) colaL = new Cola();
+        if (colaT == null) colaT = new Cola();
+        if (colaB == null) colaB = new Cola();
+
+        Simulacion simulacion = new Simulacion(semaforo, colaL, colaT, colaB, cicloReloj, numProcesadores, en1, en2, en3);
+
+        if (numProcesadores == 2) {
+            return new MainUI(
+                simulacion.getCicloReloj(),
+                simulacion.getNumProcesadores(),
+                simulacion.getColaL(),
+                simulacion.getColaB(),
+                simulacion.getColaT(),
+                simulacion.getPen1(),
+                simulacion.getPen2(),
+                simulacion.getSemaforo()
+            );
+        } else if (numProcesadores == 3) {
+            return new MainUI(
+                simulacion.getCicloReloj(),
+                simulacion.getNumProcesadores(),
+                simulacion.getColaL(),
+                simulacion.getColaB(),
+                simulacion.getColaT(),
+                simulacion.getPen1(),
+                simulacion.getPen2(),
+                simulacion.getPen3(),
+                simulacion.getSemaforo()
+            );
+        } else {
+            System.err.println("Número de CPUs no válido: " + numProcesadores);
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+    } catch (NumberFormatException e) {
+        System.err.println("Error al convertir un número en el archivo.");
+        e.printStackTrace();
+    }
+    return null;
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -61,20 +127,24 @@ public class LoadArchiveUI extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        SavedProcessButt = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        LoadProcessButt = new javax.swing.JButton();
+        StartProcessButt = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Bienvenido a la simulación de planificación");
 
-        jLabel2.setText("Por favor importe un archivo de tipo TXT");
+        jLabel2.setText("Hecho por Asier errasti y Jose Francisco");
 
-        jButton1.setText("Importar archivo");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        SavedProcessButt.setText("Cargar procesos guardados");
+
+        jLabel3.setText("Seleccione una opción:");
+
+        LoadProcessButt.setText("Cargar nuevos procesos");
+
+        StartProcessButt.setText("Iniciar nuevos procesos");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -83,13 +153,19 @@ public class LoadArchiveUI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(145, 145, 145)
+                        .addComponent(jLabel3))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(99, 99, 99)
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(113, 113, 113)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel1)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(154, 154, 154)
-                        .addComponent(jButton1)))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(StartProcessButt, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(LoadProcessButt, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(SavedProcessButt, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)))))
                 .addContainerGap(121, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -97,11 +173,17 @@ public class LoadArchiveUI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(66, 66, 66)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
-                .addGap(34, 34, 34)
-                .addComponent(jButton1)
-                .addContainerGap(182, Short.MAX_VALUE))
+                .addGap(33, 33, 33)
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
+                .addComponent(SavedProcessButt, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(LoadProcessButt, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(StartProcessButt, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(88, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -117,22 +199,6 @@ public class LoadArchiveUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-        if ((choose.showDialog(null, "Abrir")) == JFileChooser.APPROVE_OPTION) {
-            archivo = choose.getSelectedFile();
-            if (archivo.canRead()) {
-                if (archivo.getName().endsWith("txt")) {
-                    documento = AbrirArchivo(archivo);
-                    this.setVisible(false);
-                    new MainUI(documento).setVisible(true);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Archivo no válido");
-                }
-            }
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -170,9 +236,12 @@ public class LoadArchiveUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton LoadProcessButt;
+    private javax.swing.JButton SavedProcessButt;
+    private javax.swing.JButton StartProcessButt;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

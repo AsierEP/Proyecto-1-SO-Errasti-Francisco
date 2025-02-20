@@ -16,7 +16,8 @@ public class ProcessConfUI extends javax.swing.JFrame {
     
     static Cola colalistos = new Cola();
     private String tipot = "CPU Bound";
-    private String documento;
+    private int numProcesadores;
+    private int duracionCiclo;
 
 
 
@@ -24,8 +25,7 @@ public class ProcessConfUI extends javax.swing.JFrame {
     /**
      * Creates new form CreacionProceso
      */
-    public ProcessConfUI(String documento) {
-        this.documento = documento;
+    public ProcessConfUI() {
         initComponents();
         setSize(1500, 800);
         setResizable(false);
@@ -75,11 +75,20 @@ public class ProcessConfUI extends javax.swing.JFrame {
         CantInstIOTF.setVisible(false);
     }
     
+        public ProcessConfUI(int cantcpu, int time) {
+        initComponents();
+        this.numProcesadores=cantcpu;
+        this.duracionCiclo=time;
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
+    }
+    
     
     public void clear(){
         this.NameTF.setText("");
         this.PriorityTF.setText("");
         this.CantInstTF.setText("");
+        this.CantInstIOTF.setText("");
     }
 
     /**
@@ -147,6 +156,11 @@ public class ProcessConfUI extends javax.swing.JFrame {
 
         CantInstTF.setForeground(new java.awt.Color(204, 204, 204));
         CantInstTF.setText("Ej: 5");
+        CantInstTF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CantInstTFActionPerformed(evt);
+            }
+        });
 
         Lab2.setText("Ya que el proceso es I/O Bound por favor indique el número");
 
@@ -251,7 +265,7 @@ public class ProcessConfUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BackToSimButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackToSimButtActionPerformed
-        new MainUI(documento).setVisible(true);
+        new MainUI(this.numProcesadores,this.duracionCiclo).setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_BackToSimButtActionPerformed
 
@@ -289,6 +303,10 @@ public class ProcessConfUI extends javax.swing.JFrame {
     javax.swing.JOptionPane.showMessageDialog(this, "Proceso creado y agregado a la cola con éxito.");
     }//GEN-LAST:event_CrearProcesoButtActionPerformed
 
+    private void CantInstTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CantInstTFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CantInstTFActionPerformed
+
     private void NameTFMouseClicked(java.awt.event.MouseEvent evt) {                                          
     NameTF.setText("");
     NameTF.setForeground(new java.awt.Color(0, 0, 0));
@@ -310,8 +328,6 @@ public class ProcessConfUI extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-    LoadArchiveUI loadArchive = new LoadArchiveUI();
-    String documento = loadArchive.getDocumento();
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -338,7 +354,7 @@ public class ProcessConfUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ProcessConfUI(documento).setVisible(true);
+                new ProcessConfUI().setVisible(true);
             }
         });
     }

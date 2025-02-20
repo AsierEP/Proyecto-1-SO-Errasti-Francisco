@@ -13,7 +13,6 @@ public class Proyecto1SOErrastiFrancisco {
     public static void main(String[] args) {
         
         LoadArchiveUI loadArchiveUI = new LoadArchiveUI();
-        String documento = loadArchiveUI.getDocumento();
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new LoadArchiveUI().setVisible(true);

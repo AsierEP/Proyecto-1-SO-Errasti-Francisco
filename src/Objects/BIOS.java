@@ -30,6 +30,7 @@ public class BIOS extends Thread{
             try {
                     Thread.sleep(cicloReloj);
                     ciclos++;
+                    this.sim.sumReloj(ciclos);
                     System.out.println(ciclos);
                     checkIO();
             } catch (InterruptedException e) {
@@ -42,24 +43,26 @@ public class BIOS extends Thread{
         Cola colaB = sim.getBloqueados();
         Node actual = colaB.getpfirst();
         Node anterior = null;
-
-        while (actual != null) {
+        while (actual != null&&activo) {
             Proceso p = actual.getNodo();
+            if(p.irInterrumpiendo()){
+                    this.sim.irInterrumpiendo(p);
+            }
             p.sumarCicloBloqueado();
-
             if (p.finalizadaES()) {
-                
                 if (anterior == null) {
                     colaB.setFrente(actual.getPnext());
                 } else {
                     anterior.setPnext(actual.getPnext());
                 }
+                p.setEstado("Ready");
                 this.sim.addListos(p);
                 actual = actual.getPnext();
-            } else {
+            } else {                
                 anterior = actual;
                 actual = actual.getPnext();
             }
+            
         }
     }
     
@@ -99,6 +102,5 @@ public class BIOS extends Thread{
     public BIOS(ThreadGroup group, Runnable task, String name, long stackSize, boolean inheritInheritableThreadLocals) {
         super(group, task, name, stackSize, inheritInheritableThreadLocals);
     }
-    
 }
 

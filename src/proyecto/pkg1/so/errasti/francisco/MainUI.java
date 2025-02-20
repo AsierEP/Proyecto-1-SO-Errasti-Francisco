@@ -9,18 +9,15 @@ import static proyecto.pkg1.so.errasti.francisco.ProcessConfUI.colalistos;
 import Objects.BIOS;
 import Objects.Procesador;
 import Objects.Proceso;
+import Objects.Simulacion;
 import EDD.Semaforo;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import static java.lang.Thread.sleep;
-import javax.swing.Timer;
-import proyecto.pkg1.so.errasti.francisco.LoadArchiveUI.*;
 
 /**
  *
@@ -28,16 +25,29 @@ import proyecto.pkg1.so.errasti.francisco.LoadArchiveUI.*;
  */
 public final class MainUI extends javax.swing.JFrame {
     
-    private String documento;
     Cola colaL = colalistos;
     Cola colaT;
     Cola colaB;
-    Semaforo s = new Semaforo();
+    Semaforo s;
     int cicloreloj;
     Procesador P1;
     Procesador P2;
     Procesador P3;
     BIOS bios;
+    int cantcpu;
+    String politica;
+    
+    private MainUI() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public String getPolitica() {
+        return politica;
+    }
+
+    public void setPolitica(String politica) {
+        this.politica = politica;
+    }
     
     public int getCicloreloj() {
         return cicloreloj;
@@ -47,20 +57,86 @@ public final class MainUI extends javax.swing.JFrame {
         this.cicloreloj = cicloreloj;
     }
     
-    public MainUI(String documento) {
+    public void sumReloj(int i){
+        this.CicloActualLab.setText("Ciclo Actual: "+i);
+    }
+    
+    public MainUI(int i,int d) {
         initComponents();
-        actualizarListos();
         this.ProcessReadyList.setEditable(false);
         this.ProcessBlockedList.setEditable(false);
         this.ProcessFinishedList.setEditable(false);
         this.P1TA.setEditable(false);
+        this.P2TA.setEditable(false);
+        this.P3TA.setEditable(false);
+        this.ProcessReadyList.setEditable(false);
+        this.ProcessBlockedList.setEditable(false);
+        this.ProcessFinishedList.setEditable(false);
+        this.P3TA.setEditable(false);
+        this.P3TA.setEditable(false);
+        this.cantcpu=i;
+        this.setCicloreloj(d);
+        this.s= new Semaforo();
+        actualizarListos();
         cargarProcesadores();
         this.colaT = new Cola();
         this.colaB = new Cola();
     }
     
+    
+        public MainUI(int d, int i,Cola colalistos, Cola colablocked, Cola colafinished,Proceso Pen1,Proceso Pen2, Semaforo s) {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
+        this.s=s;
+        this.setCicloreloj(d);
+        this.bios= new BIOS(this);
+        this.cantcpu=i;
+        this.colaL=colalistos;
+        this.colaT = colafinished;
+        this.colaB = colablocked;
+        actualizarListos();
+        this.actualizarBloqueadosR();
+        this.actualizarTerminadosR();
+        P1 = new Procesador(1,colaL,s,this.getCicloreloj(),this);
+        P2 = new Procesador(2,colaL,s,this.getCicloreloj(),this);
+        P1.setProcesoActual(Pen1);
+        P2.setProcesoActual(Pen2);
+        bios.start();
+        P1.start();
+        P2.start();
+    }
+    
+    public MainUI(int d, int i,Cola colalistos, Cola colablocked, Cola colafinished,Proceso Pen1,Proceso Pen2, Proceso Pen3, Semaforo s) {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
+        this.s=s;
+        this.setCicloreloj(d);
+        this.bios= new BIOS(this);
+        this.cantcpu=i;
+        this.colaL=colalistos;
+        this.colaT = colafinished;
+        this.colaB = colablocked;
+        actualizarListos();
+        this.actualizarBloqueadosR();
+        this.actualizarTerminadosR();
+        P1 = new Procesador(1,colaL,s,4000,this);
+        P2 = new Procesador(2,colaL,s,4000,this);
+        P3 = new Procesador(3,colaL,s,4000,this);
+        P1.setProcesoActual(Pen1);
+        P2.setProcesoActual(Pen2);
+        P3.setProcesoActual(Pen3);
+        bios.start();
+        P1.start();
+        P2.start();
+        P3.start();
+    }
     MainUI instancia = this;
 
+    public void setCantcpu(int ii){
+        this.cantcpu=ii;
+    }
 
     public void actualizarListos(){
         ProcessReadyList.setText(colaL.print());
@@ -72,13 +148,44 @@ public final class MainUI extends javax.swing.JFrame {
         ProcessBlockedList.setText(colaB.print());
     }
     
-    public void actualizarTerminados(Proceso t){
-        colaT.AddElement(t);
+    public void irInterrumpiendo(Proceso p){
+        switch (p.getIdProcesador()) {
+            case 1:
+                P1.interrumpir();
+                System.out.println("procesador 1 notificado salida");
+                break;
+            case 2:
+                P2.interrumpir();
+                System.out.println("procesador 2 notificado salida");
+                break;
+            case 3:
+                P3.interrumpir();
+                System.out.println("procesador 3 notificado salida");
+                break;
+            default:
+                break;
+        }
+    }
+    
+    public synchronized void actualizarTerminados(Proceso t){
+        Cola copia = this.colaT.copy();
+        copia.AddElement(t);
+        this.ProcessFinishedList.setText(copia.print());
+        this.colaT=copia;
+    }
+    
+    public void actualizarTerminadosR(){
         ProcessFinishedList.setText(colaT.print());
     }
     
     public void actualizarBloqueados(Proceso t){
-        colaB.AddElement(t);
+        Cola copia = this.colaB.copy();
+        copia.AddElement(t);
+        this.ProcessBlockedList.setText(colaB.print());
+        this.colaB=copia;
+    }
+    
+    public void actualizarBloqueadosR(){
         ProcessBlockedList.setText(colaB.print());
     }
     
@@ -88,20 +195,35 @@ public final class MainUI extends javax.swing.JFrame {
     
     
     public void actualizarCiclo(){
+        if(this.cantcpu>=2){
         P1.setCicloReloj(cicloreloj);
         P2.setCicloReloj(cicloreloj);
+        }
+        if(this.cantcpu==3){
+        P3.setCicloReloj(cicloreloj);
+        }
     }
     
     private void cargarProcesadores(){
-        P1 = new Procesador(1,colaL,s,4000,this);
-        P1.start();
-        P2 = new Procesador(2,colaL,s,4000,this);
-        P2.start();
+        System.out.println(cantcpu);
+        if(this.cantcpu==3){
+            P1 = new Procesador(1,colaL,s,this.getCicloreloj(),this);
+            P1.start();
+            P2 = new Procesador(2,colaL,s,this.getCicloreloj(),this);
+            P2.start();
+            P3 = new Procesador(3,colaL,s,this.getCicloreloj(),this);
+            P3.start();
+        }else if (this.cantcpu==2){
+            P1 = new Procesador(1,colaL,s,this.getCicloreloj(),this);
+            P1.start();
+            P2 = new Procesador(2,colaL,s,this.getCicloreloj(),this);
+            P2.start();
+        }
         this.bios=new BIOS(this);
         bios.start();
     }
     
-    public MainUI getInstancia() {
+    public synchronized MainUI getInstancia() {
         return instancia;
     }
     
@@ -122,7 +244,52 @@ public final class MainUI extends javax.swing.JFrame {
         
     }
     
+    public void detenerHilos() {
+        if (P1 != null) P1.detener();
+        if (P2 != null) P2.detener();
+        if (P3 != null) P3.detener();
+        if (bios != null) bios.detener();
+    }
     
+public void guardarEstado(String path) {
+    detenerHilos();
+
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
+        if (this.cantcpu == 3) {
+            Proceso p1 = P1.getProcesoActual();
+            Proceso p2 = P2.getProcesoActual();
+            Proceso p3 = P3.getProcesoActual();
+
+            writer.write("Estado de la Simulación:\n");
+            writer.write("Semáforo: " + this.s + "\n");
+            writer.write("Cola L: " + this.colaL + "\n");
+            writer.write("Cola T: " + this.colaT + "\n");
+            writer.write("Cola B: " + this.colaB + "\n");
+            writer.write("Ciclo Reloj: " + this.cicloreloj + "\n");
+            writer.write("Número de CPUs: " + this.cantcpu + "\n");
+            writer.write("CPU1 Proceso Actual: " + (p1 != null ? p1.toString() : "null") + "\n");
+            writer.write("CPU2 Proceso Actual: " + (p2 != null ? p2.toString() : "null") + "\n");
+            writer.write("CPU3 Proceso Actual: " + (p3 != null ? p3.toString() : "null") + "\n");
+        } else {
+            Proceso p1 = P1.getProcesoActual();
+            Proceso p2 = P2.getProcesoActual();
+
+            writer.write("Estado de la Simulación:\n");
+            writer.write("Semáforo: " + this.s + "\n");
+            writer.write("Cola L: " + this.colaL + "\n");
+            writer.write("Cola T: " + this.colaT + "\n");
+            writer.write("Cola B: " + this.colaB + "\n");
+            writer.write("Ciclo Reloj: " + this.cicloreloj + "\n");
+            writer.write("Número de CPUs: " + this.cantcpu + "\n");
+            writer.write("CPU1 Proceso Actual: " + (p1 != null ? p1.toString() : "null") + "\n");
+            writer.write("CPU2 Proceso Actual: " + (p2 != null ? p2.toString() : "null") + "\n");
+        }
+
+        System.out.println("Estado de la simulación guardado en: " + path);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -134,7 +301,7 @@ public final class MainUI extends javax.swing.JFrame {
 
         PoliticasButts = new javax.swing.ButtonGroup();
         TittleLab = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        ToProcessButt = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         Procesador3Lab = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
@@ -159,20 +326,20 @@ public final class MainUI extends javax.swing.JFrame {
         ProcessBlockedList = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         ProcessFinishedList = new javax.swing.JTextArea();
-        jLabel3 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        CicloActualLab = new javax.swing.JLabel();
+        ToCiclosButt = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        ToPoliticasButt = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(1500, 800));
 
         TittleLab.setText("SIMULACIÓN DE PLANIFICACIÓN");
 
-        jButton1.setText("Ventana de procesos");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        ToProcessButt.setText("Ventana de procesos");
+        ToProcessButt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                ToProcessButtActionPerformed(evt);
             }
         });
 
@@ -299,13 +466,23 @@ public final class MainUI extends javax.swing.JFrame {
         ProcessFinishedList.setRows(5);
         jScrollPane2.setViewportView(ProcessFinishedList);
 
-        jLabel3.setText("Ciclo Actual:");
+        CicloActualLab.setText("Ciclo Actual:");
 
-        jButton2.setText("Modificación ciclos");
+        ToCiclosButt.setText("Modificación ciclos");
+        ToCiclosButt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ToCiclosButtActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Política de vaciado:");
 
-        jButton3.setText("Políticas de vaciado");
+        ToPoliticasButt.setText("Políticas de vaciado");
+        ToPoliticasButt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ToPoliticasButtActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -343,14 +520,14 @@ public final class MainUI extends javax.swing.JFrame {
                                 .addGap(29, 29, 29)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(ToPoliticasButt, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(ToProcessButt, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(41, 41, 41))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+                            .addComponent(CicloActualLab, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ToCiclosButt, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -394,7 +571,7 @@ public final class MainUI extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton1)
+                                .addComponent(ToProcessButt)
                                 .addGap(74, 74, 74))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(321, 321, 321)
@@ -406,31 +583,41 @@ public final class MainUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(58, 58, 58)
-                .addComponent(jLabel3)
+                .addComponent(CicloActualLab)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
+                .addComponent(ToCiclosButt)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
-                .addComponent(jButton3)
+                .addComponent(ToPoliticasButt)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ProcessConfUI pc = new ProcessConfUI(documento);
+    private void ToProcessButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ToProcessButtActionPerformed
+        ProcessConfUI pc = new ProcessConfUI();
         pc.setVisible(true);
         this.setVisible(false);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_ToProcessButtActionPerformed
+
+    private void ToCiclosButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ToCiclosButtActionPerformed
+        CiclosRelojConfUI cic = new CiclosRelojConfUI(this);
+        cic.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_ToCiclosButtActionPerformed
+
+    private void ToPoliticasButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ToPoliticasButtActionPerformed
+        PoliticasConfUI pol = new PoliticasConfUI();
+        pol.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_ToPoliticasButtActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-    LoadArchiveUI loadArchive = new LoadArchiveUI();
-    String documento = loadArchive.getDocumento();
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -457,12 +644,13 @@ public final class MainUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainUI(documento).setVisible(true);
+                new MainUI().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel CicloActualLab;
     private javax.swing.JLabel NameP1Lab;
     private javax.swing.JLabel NameP2Lab;
     private javax.swing.JLabel NameP3Lab;
@@ -478,12 +666,11 @@ public final class MainUI extends javax.swing.JFrame {
     private javax.swing.JLabel ProcessReadyLab;
     private javax.swing.JTextArea ProcessReadyList;
     private javax.swing.JLabel TittleLab;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton ToCiclosButt;
+    private javax.swing.JButton ToPoliticasButt;
+    private javax.swing.JButton ToProcessButt;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

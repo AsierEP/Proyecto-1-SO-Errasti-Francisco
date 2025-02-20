@@ -11,6 +11,7 @@ package Objects;
 public class Proceso {
     private static int contadorID = 0;
     private int id;
+    private int idProcesador;
     private String nombre;
     private int insfaltantes;
     private int instotales;
@@ -55,6 +56,18 @@ public class Proceso {
 
     public int getId() {
         return id;
+    }
+    
+    public boolean irInterrumpiendo(){
+        return(this.finExcepcion-this.insblocked==1 );
+    }
+
+    public int getIdProcesador() {
+        return idProcesador;
+    }
+    
+    public void setIdProcesador(int idProcesador) {
+        this.idProcesador = idProcesador;
     }
 
     public String getNombre() {

@@ -55,17 +55,15 @@ public class Cola {
             return size;
         }
         
-        public String print() {
-        String resultado = "";
+    public String print() {
+        String print = "";
         Node actual = pfirst;
-        for (int i = 0; i < size; i++) {
-            if (actual != null) {
+        while(actual!=null) {
                 Proceso proceso = actual.getNodo();
-                resultado += proceso.print()+"\n\n";
+                print += proceso.print()+"\n";
                 actual = actual.getPnext();
-            }
         }
-        return resultado;
+        return print;
     }
         
     public Node getpfirst(){
@@ -74,6 +72,24 @@ public class Cola {
 
     public void setFrente(Node pfirst) {
         this.pfirst = pfirst;
+    }
+
+    public Node getPlast() {
+        return plast;
+    }
+
+    public void setPlast(Node plast) {
+        this.plast = plast;
+    }
+    
+    public Cola copy(){
+        Cola r = new Cola();
+        Node actual = this.pfirst;
+        while(actual!=null){
+            r.AddElement(actual.getNodo());
+            actual=actual.getPnext();
+        }
+        return r;
     }
     
 }
