@@ -42,10 +42,10 @@ public class Procesador extends Thread {
             try {
                 if(procesoActual==null){
                     semaforo.Swait();
-                    if (!this.simulacion.getColaL().IsEmpty()||!this.simulacion.getColaRespaldoListos().IsEmpty()) {
+                    if (!this.simulacion.getColaL().IsEmpty()||!this.simulacion.getColaCopiaListos().IsEmpty()) {
                         if("FCFS".equals(this.simulacion.getPolitica())){
                             if(this.simulacion.getColaL().IsEmpty()){
-                                procesoActual = this.simulacion.getColaRespaldoListos().RemoveElement();
+                                procesoActual = this.simulacion.getColaCopiaListos().RemoveElement();
                             }else{
                                 procesoActual = this.simulacion.getColaL().RemoveElement();
                             }

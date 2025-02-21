@@ -1,0 +1,20 @@
+{
+  "semaforo": {
+    "counter": 1
+  },
+  "colaL": {
+    "size": 0,
+    "result": ""
+  },
+  "colaT": {
+    "size": 0,
+    "result": ""
+  },
+  "colaB": {
+    "size": 0,
+    "result": ""
+  },
+  "cicloReloj": 6000,
+  "numProcesadores": 2,
+  "politica": "FCFS"
+}

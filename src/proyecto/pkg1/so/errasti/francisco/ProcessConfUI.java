@@ -328,6 +328,8 @@ public class ProcessConfUI extends javax.swing.JFrame {
     private void BackToSimButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackToSimButtActionPerformed
         MainUI main = new MainUI("FCFS",this.numProcesadores,this.duracionCiclo);
         main.setVisible(true);
+        PoliticasConfUI politicasConfUI = new PoliticasConfUI();
+        politicasConfUI.seleccionarFCFS();
         this.dispose();
     }//GEN-LAST:event_BackToSimButtActionPerformed
 

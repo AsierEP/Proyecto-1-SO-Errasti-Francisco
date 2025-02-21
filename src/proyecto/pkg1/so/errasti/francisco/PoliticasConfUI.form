@@ -53,18 +53,23 @@
                           <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="FIFOButt" min="-2" pref="98" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="107" max="-2" attributes="0"/>
-                                  <Component id="FCFSButt" min="-2" pref="98" max="-2" attributes="0"/>
-                                  <EmptySpace pref="181" max="32767" attributes="0"/>
-                                  <Component id="RoundButt" min="-2" pref="98" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
                                   <Component id="jRadioButton4" min="-2" pref="98" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Component id="jRadioButton5" min="-2" pref="98" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="89" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Component id="AplicarButt" min="-2" max="-2" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Component id="FIFOButt" min="-2" pref="98" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="107" max="-2" attributes="0"/>
+                                          <Component id="FCFSButt" min="-2" pref="98" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <EmptySpace pref="181" max="32767" attributes="0"/>
+                                  <Component id="RoundButt" min="-2" pref="98" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -102,7 +107,9 @@
                       <Component id="jRadioButton4" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jRadioButton5" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="145" max="32767" attributes="0"/>
+                  <EmptySpace pref="76" max="32767" attributes="0"/>
+                  <Component id="AplicarButt" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                   <Component id="BacktoMainUIButt" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
               </Group>
@@ -153,6 +160,17 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Bienvenido a la configuraci&#xf3;n de la pol&#xed;tica de vaciado"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="AplicarButt">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="99" red="99" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Aplicar"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AplicarButtActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

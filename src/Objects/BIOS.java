@@ -51,7 +51,7 @@ public class BIOS extends Thread{
             p.sumarCicloBloqueado();
             if (p.finalizadaES()) {
                 if (anterior == null) {
-                    colaB.setFrente(actual.getPnext());
+                    colaB.setpfirst(actual.getPnext());
                 } else {
                     anterior.setPnext(actual.getPnext());
                 }

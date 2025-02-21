@@ -175,7 +175,7 @@ public final class MainUI extends javax.swing.JFrame {
         return this.colaL;   
     }
     
-    public Cola getColaRespaldoListos(){
+    public Cola getColaCopiaListos(){
         return this.colaCopiaListos;
     }
     
@@ -422,7 +422,7 @@ public final class MainUI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         CicloActualLab = new javax.swing.JLabel();
         ToCiclosButt = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
+        PoliticaLab = new javax.swing.JLabel();
         ToPoliticasButt = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         ProcessFinishedList = new javax.swing.JTextArea();
@@ -568,7 +568,7 @@ public final class MainUI extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setText("Política de vaciado:");
+        PoliticaLab.setText("Política de vaciado:");
 
         ToPoliticasButt.setBackground(new java.awt.Color(204, 255, 255));
         ToPoliticasButt.setText("Políticas de vaciado");
@@ -635,7 +635,7 @@ public final class MainUI extends javax.swing.JFrame {
                                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addComponent(CicloActualLab, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(ToCiclosButt, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(PoliticaLab, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -707,7 +707,7 @@ public final class MainUI extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(ToCiclosButt)
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel4)
+                                .addComponent(PoliticaLab)
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel5Layout.createSequentialGroup()
                                         .addGap(18, 18, 18)
@@ -757,6 +757,12 @@ public final class MainUI extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_EndButtActionPerformed
 
+    
+        
+    public void PolLab(){
+        this.PoliticaLab.setText("Política de vaciado: "+ politica);
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -801,6 +807,7 @@ public final class MainUI extends javax.swing.JFrame {
     private javax.swing.JTextArea P1TA;
     private javax.swing.JTextArea P2TA;
     private javax.swing.JTextArea P3TA;
+    private javax.swing.JLabel PoliticaLab;
     private javax.swing.ButtonGroup PoliticasButts;
     private javax.swing.JLabel Procesador1Lab;
     private javax.swing.JLabel Procesador2Lab;
@@ -815,7 +822,6 @@ public final class MainUI extends javax.swing.JFrame {
     private javax.swing.JButton ToProcessButt;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

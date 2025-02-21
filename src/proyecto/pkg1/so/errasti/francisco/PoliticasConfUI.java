@@ -30,6 +30,11 @@ public class PoliticasConfUI extends javax.swing.JFrame {
         PoliticasButts.add(jRadioButton4);
         PoliticasButts.add(jRadioButton5);
 
+
+    }
+    
+    public void seleccionarFCFS() {
+        FCFSButt.setSelected(true);
     }
 
     /**
@@ -50,6 +55,7 @@ public class PoliticasConfUI extends javax.swing.JFrame {
         jRadioButton5 = new javax.swing.JRadioButton();
         RoundButt = new javax.swing.JRadioButton();
         jLabel1 = new javax.swing.JLabel();
+        AplicarButt = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -76,6 +82,14 @@ public class PoliticasConfUI extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Californian FB", 1, 18)); // NOI18N
         jLabel1.setText("Bienvenido a la configuración de la política de vaciado");
 
+        AplicarButt.setBackground(new java.awt.Color(153, 153, 255));
+        AplicarButt.setText("Aplicar");
+        AplicarButt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AplicarButtActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -86,17 +100,20 @@ public class PoliticasConfUI extends javax.swing.JFrame {
                         .addGap(17, 17, 17)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(FIFOButt, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(107, 107, 107)
-                                .addComponent(FCFSButt, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 181, Short.MAX_VALUE)
-                                .addComponent(RoundButt, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(69, 69, 69)
                                 .addComponent(jRadioButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jRadioButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(89, 89, 89))))
+                                .addGap(89, 89, 89))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(AplicarButt)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(FIFOButt, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(107, 107, 107)
+                                        .addComponent(FCFSButt, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 181, Short.MAX_VALUE)
+                                .addComponent(RoundButt, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -122,7 +139,9 @@ public class PoliticasConfUI extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jRadioButton4)
                     .addComponent(jRadioButton5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 145, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
+                .addComponent(AplicarButt)
+                .addGap(46, 46, 46)
                 .addComponent(BacktoMainUIButt)
                 .addGap(17, 17, 17))
         );
@@ -145,6 +164,24 @@ public class PoliticasConfUI extends javax.swing.JFrame {
         this.sim.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_BacktoMainUIButtActionPerformed
+
+    private void AplicarButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AplicarButtActionPerformed
+    if (FIFOButt.isSelected()) {
+        sim.setPolitica("FIFO");
+    } else if (FCFSButt.isSelected()) {
+        sim.setPolitica("FCFS");
+    } else if (RoundButt.isSelected()) {
+        sim.setPolitica("Round Robin");
+    } else if (jRadioButton4.isSelected()) {
+        sim.setPolitica("jRadioButton4");
+    } else if (jRadioButton5.isSelected()) {
+        sim.setPolitica("jRadioButton5");
+    } else {
+        System.out.println("Ninguna política seleccionada.");
+    }
+
+    System.out.println("Política aplicada: " + sim.getPolitica());
+    }//GEN-LAST:event_AplicarButtActionPerformed
 
     /**
      * @param args the command line arguments
@@ -182,6 +219,7 @@ public class PoliticasConfUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AplicarButt;
     private javax.swing.JButton BacktoMainUIButt;
     private javax.swing.JRadioButton FCFSButt;
     private javax.swing.JRadioButton FIFOButt;

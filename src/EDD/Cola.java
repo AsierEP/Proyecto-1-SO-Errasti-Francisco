@@ -14,11 +14,14 @@ public class Cola {
     private Node pfirst;
     private Node plast;
     private int size;
+    private String result="";
+
 
     public Cola() {
         this.pfirst = null;
         this.plast = null;
         this.size = 0;
+        this.result="";
     }
     
     public boolean IsEmpty(){
@@ -35,6 +38,18 @@ public class Cola {
             plast = newnode;
         }
         size++;        
+    }
+    
+    public synchronized void AddElementP(Proceso el){
+        Node nuevoNodo = new Node(el);
+        if (IsEmpty()) {
+            pfirst = nuevoNodo;
+            plast = nuevoNodo;
+        } else {
+            nuevoNodo.setPnext(pfirst);
+            pfirst = nuevoNodo;
+        }
+        size++;
     }
     
         public Proceso RemoveElement() {
@@ -56,21 +71,21 @@ public class Cola {
         }
         
     public String print() {
-        String print = "";
+        String resultado = "";
         Node actual = pfirst;
         while(actual!=null) {
                 Proceso proceso = actual.getNodo();
-                print += proceso.print()+"\n";
+                resultado += proceso.print()+"\n";
                 actual = actual.getPnext();
         }
-        return print;
+        return resultado;
     }
         
     public Node getpfirst(){
         return this.pfirst;
     }
 
-    public void setFrente(Node pfirst) {
+    public void setpfirst(Node pfirst) {
         this.pfirst = pfirst;
     }
 

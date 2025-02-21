@@ -25,16 +25,15 @@ public class LoadArchiveUI extends javax.swing.JFrame {
      */
     public LoadArchiveUI() {
         initComponents();
-        this.setVisible(true);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.creacion=new ProcessConfUI();
     }
     
-    public MainUI restablecerEstado(String rutaArchivo) {
+    public MainUI restablecerEstado(String path) {
         Gson gson = new Gson();
 
-        try (FileReader reader = new FileReader(rutaArchivo)) {
+        try (FileReader reader = new FileReader(path)) {
             Simulacion estado = gson.fromJson(reader, Simulacion.class);
 
             Semaforo semaf = estado.getSemaforo();
