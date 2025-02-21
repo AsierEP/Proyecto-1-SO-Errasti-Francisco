@@ -151,7 +151,7 @@ public class LoadArchiveUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void SavedProcessButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SavedProcessButtActionPerformed
-        MainUI sim = this.restablecerEstado("test//simulacion.json");
+        MainUI sim = this.restablecerEstado("src/proyecto/pkg1/so/errasti/francisco/simulacion.json");
         sim.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_SavedProcessButtActionPerformed

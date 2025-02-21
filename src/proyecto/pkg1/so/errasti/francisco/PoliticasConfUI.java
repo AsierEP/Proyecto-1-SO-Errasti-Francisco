@@ -21,11 +21,12 @@ public class PoliticasConfUI extends javax.swing.JFrame {
     public PoliticasConfUI() {
         initComponents();
     }
-    public PoliticasConfUI(MainUI sim) {
+    public PoliticasConfUI(MainUI si) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setSize(600,400);
+        this.sim=si;
     }
 
     /**

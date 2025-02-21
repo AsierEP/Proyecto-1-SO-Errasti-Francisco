@@ -295,6 +295,9 @@ public final class MainUI extends javax.swing.JFrame {
             P1.start();
             P2 = new Procesador(2,s,this.getCicloreloj(),this);
             P2.start();
+        }else if (this.cantcpu==1){
+            P1 = new Procesador(1,s,this.getCicloreloj(),this);
+            P1.start();
         }
         this.bios=new Dispatcher(this);
         bios.start();
@@ -762,7 +765,7 @@ public final class MainUI extends javax.swing.JFrame {
     }//GEN-LAST:event_ToPoliticasButtActionPerformed
 
     private void EndButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EndButtActionPerformed
-        this.guardarEstado("test//simulacion.json");
+        this.guardarEstado("src/proyecto/pkg1/so/errasti/francisco/simulacion.json");
         this.dispose();
         System.exit(0);
     }//GEN-LAST:event_EndButtActionPerformed
