@@ -99,6 +99,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Cargar procesos guardados"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SavedProcessButtActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
@@ -109,11 +112,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Cargar nuevos procesos"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LoadProcessButtActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="StartProcessButt">
           <Properties>
             <Property name="text" type="java.lang.String" value="Iniciar nuevos procesos"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="StartProcessButtActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

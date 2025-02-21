@@ -17,6 +17,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import java.awt.Color;
 
 
 /**
@@ -25,7 +28,8 @@ import java.util.logging.Logger;
  */
 public final class MainUI extends javax.swing.JFrame {
     
-    Cola colaL = colalistos;
+    Cola colaL = new Cola();
+    Cola colaCopiaListos= new Cola();
     Cola colaT;
     Cola colaB;
     Semaforo s;
@@ -36,6 +40,8 @@ public final class MainUI extends javax.swing.JFrame {
     BIOS bios;
     int cantcpu;
     String politica;
+    boolean Cambio;
+
     
     private MainUI() {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -61,69 +67,87 @@ public final class MainUI extends javax.swing.JFrame {
         this.CicloActualLab.setText("Ciclo Actual: "+i);
     }
     
-    public MainUI(int i,int d) {
+    public MainUI(String plt, int i,int d) {
         initComponents();
+        this.Cambio=false;
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
+        this.setPolitica(plt);
+        this.cantcpu=i;
+        this.setCicloreloj(d);
+        this.s= new Semaforo();
+        actualizarListos();
         this.ProcessReadyList.setEditable(false);
         this.ProcessBlockedList.setEditable(false);
         this.ProcessFinishedList.setEditable(false);
         this.P1TA.setEditable(false);
         this.P2TA.setEditable(false);
         this.P3TA.setEditable(false);
-        this.ProcessReadyList.setEditable(false);
-        this.ProcessBlockedList.setEditable(false);
-        this.ProcessFinishedList.setEditable(false);
-        this.P3TA.setEditable(false);
-        this.P3TA.setEditable(false);
-        this.cantcpu=i;
-        this.setCicloreloj(d);
-        this.s= new Semaforo();
-        actualizarListos();
+        this.colaL=colalistos;
         cargarProcesadores();
         this.colaT = new Cola();
         this.colaB = new Cola();
+        ActualizarLabels(i);
     }
     
     
-        public MainUI(int d, int i,Cola colalistos, Cola colablocked, Cola colafinished,Proceso Pen1,Proceso Pen2, Semaforo s) {
+        public MainUI(String plt, int d, int i,Cola colalistos, Cola colablocked, Cola colafinished,Proceso Pen1,Proceso Pen2, Semaforo s) {
         initComponents();
+        this.Cambio=false;
         this.setLocationRelativeTo(null);
         this.setResizable(false);
+        this.setPolitica(plt);
         this.s=s;
         this.setCicloreloj(d);
         this.bios= new BIOS(this);
         this.cantcpu=i;
+        this.ProcessReadyList.setEditable(false);
+        this.ProcessBlockedList.setEditable(false);
+        this.ProcessFinishedList.setEditable(false);
+        this.P1TA.setEditable(false);
+        this.P2TA.setEditable(false);
+        this.P3TA.setEditable(false);
         this.colaL=colalistos;
         this.colaT = colafinished;
         this.colaB = colablocked;
         actualizarListos();
         this.actualizarBloqueadosR();
         this.actualizarTerminadosR();
-        P1 = new Procesador(1,colaL,s,this.getCicloreloj(),this);
-        P2 = new Procesador(2,colaL,s,this.getCicloreloj(),this);
+        P1 = new Procesador(1,s,this.getCicloreloj(),this);
+        P2 = new Procesador(2,s,this.getCicloreloj(),this);
         P1.setProcesoActual(Pen1);
         P2.setProcesoActual(Pen2);
         bios.start();
         P1.start();
         P2.start();
+        ActualizarLabels(i);
     }
     
-    public MainUI(int d, int i,Cola colalistos, Cola colablocked, Cola colafinished,Proceso Pen1,Proceso Pen2, Proceso Pen3, Semaforo s) {
+    public MainUI(String plt, int d, int i,Cola colalistos, Cola colablocked, Cola colafinished,Proceso Pen1,Proceso Pen2, Proceso Pen3, Semaforo s) {
         initComponents();
+        this.Cambio=false;
         this.setLocationRelativeTo(null);
         this.setResizable(false);
+        this.setPolitica(plt);
         this.s=s;
         this.setCicloreloj(d);
         this.bios= new BIOS(this);
         this.cantcpu=i;
+        this.ProcessReadyList.setEditable(false);
+        this.ProcessBlockedList.setEditable(false);
+        this.ProcessFinishedList.setEditable(false);
+        this.P1TA.setEditable(false);
+        this.P2TA.setEditable(false);
+        this.P3TA.setEditable(false);
         this.colaL=colalistos;
         this.colaT = colafinished;
         this.colaB = colablocked;
         actualizarListos();
         this.actualizarBloqueadosR();
         this.actualizarTerminadosR();
-        P1 = new Procesador(1,colaL,s,4000,this);
-        P2 = new Procesador(2,colaL,s,4000,this);
-        P3 = new Procesador(3,colaL,s,4000,this);
+        P1 = new Procesador(1,s,4000,this);
+        P2 = new Procesador(2,s,4000,this);
+        P3 = new Procesador(3,s,4000,this);
         P1.setProcesoActual(Pen1);
         P2.setProcesoActual(Pen2);
         P3.setProcesoActual(Pen3);
@@ -131,6 +155,7 @@ public final class MainUI extends javax.swing.JFrame {
         P1.start();
         P2.start();
         P3.start();
+        ActualizarLabels(i);
     }
     MainUI instancia = this;
 
@@ -138,8 +163,20 @@ public final class MainUI extends javax.swing.JFrame {
         this.cantcpu=ii;
     }
 
-    public void actualizarListos(){
+    public synchronized void actualizarListos(){
         ProcessReadyList.setText(colaL.print());
+    }
+    
+    public synchronized void actualizarListos(Cola L){
+        ProcessReadyList.setText(L.print());
+    }
+    
+    public Cola getColaL(){
+        return this.colaL;   
+    }
+    
+    public Cola getColaRespaldoListos(){
+        return this.colaCopiaListos;
     }
     
     public void addListos(Proceso p){
@@ -178,6 +215,17 @@ public final class MainUI extends javax.swing.JFrame {
         ProcessFinishedList.setText(colaT.print());
     }
     
+    public synchronized void actualizarListos(Proceso tu){
+        Cola copia = this.colaL.copy();
+        copia.AddElement(tu);
+        this.ProcessReadyList.setText(copia.print());
+        this.colaL=copia;
+    }
+    
+    public synchronized void aggRespaldo(Proceso ele){
+        this.colaCopiaListos.AddElement(ele);
+    }
+    
     public void actualizarBloqueados(Proceso t){
         Cola copia = this.colaB.copy();
         copia.AddElement(t);
@@ -187,6 +235,26 @@ public final class MainUI extends javax.swing.JFrame {
     
     public void actualizarBloqueadosR(){
         ProcessBlockedList.setText(colaB.print());
+    }
+    
+    public synchronized void unirColas() {
+        while (!colaCopiaListos.IsEmpty()) {
+            Proceso proceso = colaCopiaListos.RemoveElement();
+            colaL.AddElement(proceso);
+        }
+        System.out.println(colaL.print());
+    }
+    
+    public synchronized void cambio(){
+        this.Cambio=true;
+    }
+    
+    public boolean hayCambioPend(){
+        return this.Cambio==true;
+    }
+    
+    public synchronized void Fincambio(){
+        this.Cambio=false;
     }
     
     public Cola getBloqueados(){
@@ -207,16 +275,16 @@ public final class MainUI extends javax.swing.JFrame {
     private void cargarProcesadores(){
         System.out.println(cantcpu);
         if(this.cantcpu==3){
-            P1 = new Procesador(1,colaL,s,this.getCicloreloj(),this);
+            P1 = new Procesador(1,s,this.getCicloreloj(),this);
             P1.start();
-            P2 = new Procesador(2,colaL,s,this.getCicloreloj(),this);
+            P2 = new Procesador(2,s,this.getCicloreloj(),this);
             P2.start();
-            P3 = new Procesador(3,colaL,s,this.getCicloreloj(),this);
+            P3 = new Procesador(3,s,this.getCicloreloj(),this);
             P3.start();
         }else if (this.cantcpu==2){
-            P1 = new Procesador(1,colaL,s,this.getCicloreloj(),this);
+            P1 = new Procesador(1,s,this.getCicloreloj(),this);
             P1.start();
-            P2 = new Procesador(2,colaL,s,this.getCicloreloj(),this);
+            P2 = new Procesador(2,s,this.getCicloreloj(),this);
             P2.start();
         }
         this.bios=new BIOS(this);
@@ -225,6 +293,10 @@ public final class MainUI extends javax.swing.JFrame {
     
     public synchronized MainUI getInstancia() {
         return instancia;
+    }
+    
+    public synchronized Cola getColaListos(){
+        return this.colaL;
     }
     
     public void actualizarTextoArea(String texto,int id) {
@@ -251,43 +323,68 @@ public final class MainUI extends javax.swing.JFrame {
         if (bios != null) bios.detener();
     }
     
-public void guardarEstado(String path) {
-    detenerHilos();
+    public void textoListos(String t){
+        this.ProcessReadyList.setText(t+this.colaCopiaListos.print());
+    }
+    
+    public void guardarEstado(String rutaArchivo) {
+        detenerHilos(); // Detener los hilos antes de guardar
+        
+        if(this.cantcpu==3){
+        Proceso p1 = P1.getProcesoActual();
+        Proceso p2 = P2.getProcesoActual();
+        Proceso p3 = P3.getProcesoActual();
+        
+        Simulacion estado = new Simulacion(this.getPolitica(),this.s, this.colaL, this.colaT, this.colaB, this.cicloreloj,this.cantcpu,p1,p2,p3);
+        
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
-        if (this.cantcpu == 3) {
-            Proceso p1 = P1.getProcesoActual();
-            Proceso p2 = P2.getProcesoActual();
-            Proceso p3 = P3.getProcesoActual();
-
-            writer.write("Estado de la Simulación:\n");
-            writer.write("Semáforo: " + this.s + "\n");
-            writer.write("Cola L: " + this.colaL + "\n");
-            writer.write("Cola T: " + this.colaT + "\n");
-            writer.write("Cola B: " + this.colaB + "\n");
-            writer.write("Ciclo Reloj: " + this.cicloreloj + "\n");
-            writer.write("Número de CPUs: " + this.cantcpu + "\n");
-            writer.write("CPU1 Proceso Actual: " + (p1 != null ? p1.toString() : "null") + "\n");
-            writer.write("CPU2 Proceso Actual: " + (p2 != null ? p2.toString() : "null") + "\n");
-            writer.write("CPU3 Proceso Actual: " + (p3 != null ? p3.toString() : "null") + "\n");
-        } else {
-            Proceso p1 = P1.getProcesoActual();
-            Proceso p2 = P2.getProcesoActual();
-
-            writer.write("Estado de la Simulación:\n");
-            writer.write("Semáforo: " + this.s + "\n");
-            writer.write("Cola L: " + this.colaL + "\n");
-            writer.write("Cola T: " + this.colaT + "\n");
-            writer.write("Cola B: " + this.colaB + "\n");
-            writer.write("Ciclo Reloj: " + this.cicloreloj + "\n");
-            writer.write("Número de CPUs: " + this.cantcpu + "\n");
-            writer.write("CPU1 Proceso Actual: " + (p1 != null ? p1.toString() : "null") + "\n");
-            writer.write("CPU2 Proceso Actual: " + (p2 != null ? p2.toString() : "null") + "\n");
+        try (FileWriter writer = new FileWriter(rutaArchivo)) {
+            gson.toJson(estado, writer); // Serializar el objeto contenedor
+            System.out.println("Estado de la simulación guardado en: " + rutaArchivo);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        }else{
+            Proceso p1 = P1.getProcesoActual();
+        Proceso p2 = P2.getProcesoActual();
+        
+        Simulacion estado = new Simulacion(this.getPolitica(),this.s, this.colaL, this.colaT, this.colaB, this.cicloreloj,this.cantcpu,p1,p2);
+        
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-        System.out.println("Estado de la simulación guardado en: " + path);
-    } catch (IOException e) {
-        e.printStackTrace();
+        try (FileWriter writer = new FileWriter(rutaArchivo)) {
+            gson.toJson(estado, writer); // Serializar el objeto contenedor
+            System.out.println("Estado de la simulación guardado en: " + rutaArchivo);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        }
+    }
+    
+    public void ActualizarLabels(int i) {
+    Color verde = new Color(0, 128, 0);
+    switch (i) {
+        case 1:
+            Procesador1Lab.setText("[ENCENDIDO]");
+            Procesador1Lab.setForeground(verde);
+            break;
+        case 2:
+            Procesador1Lab.setText("[ENCENDIDO]");
+            Procesador1Lab.setForeground(verde);
+            Procesador2Lab.setText("[ENCENDIDO]");
+            Procesador2Lab.setForeground(verde);
+            break;
+        case 3:
+            Procesador1Lab.setText("[ENCENDIDO]");
+            Procesador1Lab.setForeground(verde);
+            Procesador2Lab.setText("[ENCENDIDO]");
+            Procesador2Lab.setForeground(verde);
+            Procesador3Lab.setText("[ENCENDIDO]");
+            Procesador3Lab.setForeground(verde);
+            break;
+        default:
+            break;
     }
 }
     /**
@@ -330,6 +427,7 @@ public void guardarEstado(String path) {
         ToCiclosButt = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         ToPoliticasButt = new javax.swing.JButton();
+        EndButt = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(1500, 800));
@@ -484,6 +582,14 @@ public void guardarEstado(String path) {
             }
         });
 
+        EndButt.setBackground(new java.awt.Color(255, 153, 153));
+        EndButt.setText("X");
+        EndButt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EndButtActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -533,7 +639,8 @@ public void guardarEstado(String path) {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(TittleLab)
-                .addGap(601, 601, 601))
+                .addGap(489, 489, 489)
+                .addComponent(EndButt, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(278, 278, 278)
                 .addComponent(NameP1Lab)
@@ -544,8 +651,11 @@ public void guardarEstado(String path) {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(TittleLab)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(TittleLab))
+                    .addComponent(EndButt))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(7, 7, 7)
@@ -614,6 +724,12 @@ public void guardarEstado(String path) {
         this.setVisible(false);
     }//GEN-LAST:event_ToPoliticasButtActionPerformed
 
+    private void EndButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EndButtActionPerformed
+        this.guardarEstado("test//simulacion.json");
+        this.dispose();
+        System.exit(0);
+    }//GEN-LAST:event_EndButtActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -651,6 +767,7 @@ public void guardarEstado(String path) {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel CicloActualLab;
+    private javax.swing.JButton EndButt;
     private javax.swing.JLabel NameP1Lab;
     private javax.swing.JLabel NameP2Lab;
     private javax.swing.JLabel NameP3Lab;

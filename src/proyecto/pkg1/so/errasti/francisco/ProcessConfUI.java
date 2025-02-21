@@ -81,6 +81,49 @@ public class ProcessConfUI extends javax.swing.JFrame {
         this.duracionCiclo=time;
         this.setLocationRelativeTo(null);
         this.setResizable(false);
+        
+        ProcessModeButts = new ButtonGroup();
+        ProcessModeButts.add(CPUBoundButt);
+        ProcessModeButts.add(IOBoundButt);
+        
+        NameTF.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            NameTFMouseClicked(evt);
+        }
+    });
+        CantInstTF.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            CantInstTFMouseClicked(evt);
+        }
+    });
+        CantInstIOTF.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            CantInstIOTFMouseClicked(evt);
+        }
+    });
+        
+        PriorityTF.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            PriorityTFMouseClicked(evt);
+        }
+    });
+        IOBoundButt.addItemListener(new java.awt.event.ItemListener() {
+        public void itemStateChanged(java.awt.event.ItemEvent evt) {
+            if (IOBoundButt.isSelected()) {
+                Lab2.setVisible(true);
+                Lab3.setVisible(true);
+                CantInstIOTF.setVisible(true);
+            } else {
+                Lab2.setVisible(false);
+                Lab3.setVisible(false);
+                CantInstIOTF.setVisible(false);
+            }
+        }
+    });
+        
+        Lab2.setVisible(false);
+        Lab3.setVisible(false);
+        CantInstIOTF.setVisible(false);
     }
     
     
@@ -265,8 +308,9 @@ public class ProcessConfUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BackToSimButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackToSimButtActionPerformed
-        new MainUI(this.numProcesadores,this.duracionCiclo).setVisible(true);
-        this.setVisible(false);
+        MainUI main = new MainUI("FCFS",this.numProcesadores,this.duracionCiclo);
+        main.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_BackToSimButtActionPerformed
 
     private void NameTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NameTFActionPerformed

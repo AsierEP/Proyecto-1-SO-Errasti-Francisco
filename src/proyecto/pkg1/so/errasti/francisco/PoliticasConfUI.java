@@ -25,8 +25,8 @@ public class PoliticasConfUI extends javax.swing.JFrame {
         
         PoliticasButts = new ButtonGroup();
         PoliticasButts.add(FIFOButt);
-        PoliticasButts.add(jRadioButton2);
-        PoliticasButts.add(jRadioButton3);
+        PoliticasButts.add(FCFSButt);
+        PoliticasButts.add(RoundButt);
         PoliticasButts.add(jRadioButton4);
         PoliticasButts.add(jRadioButton5);
 
@@ -44,8 +44,8 @@ public class PoliticasConfUI extends javax.swing.JFrame {
         PoliticasButts = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         FIFOButt = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
+        FCFSButt = new javax.swing.JRadioButton();
+        RoundButt = new javax.swing.JRadioButton();
         jRadioButton4 = new javax.swing.JRadioButton();
         jRadioButton5 = new javax.swing.JRadioButton();
         BacktoMainUIButt = new javax.swing.JButton();
@@ -57,9 +57,9 @@ public class PoliticasConfUI extends javax.swing.JFrame {
 
         FIFOButt.setText("FIFO");
 
-        jRadioButton2.setText("jRadioButton2");
+        FCFSButt.setText("FCFS");
 
-        jRadioButton3.setText("jRadioButton3");
+        RoundButt.setText("Round Robin");
 
         jRadioButton4.setText("jRadioButton4");
 
@@ -80,9 +80,9 @@ public class PoliticasConfUI extends javax.swing.JFrame {
                 .addGap(46, 46, 46)
                 .addComponent(FIFOButt, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(107, 107, 107)
-                .addComponent(jRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(FCFSButt, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jRadioButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(RoundButt, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(54, 54, 54))
             .addGroup(layout.createSequentialGroup()
                 .addGap(115, 115, 115)
@@ -108,8 +108,8 @@ public class PoliticasConfUI extends javax.swing.JFrame {
                 .addGap(98, 98, 98)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(FIFOButt)
-                    .addComponent(jRadioButton2)
-                    .addComponent(jRadioButton3))
+                    .addComponent(FCFSButt)
+                    .addComponent(RoundButt))
                 .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jRadioButton4)
@@ -164,11 +164,11 @@ public class PoliticasConfUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BacktoMainUIButt;
+    private javax.swing.JRadioButton FCFSButt;
     private javax.swing.JRadioButton FIFOButt;
     private javax.swing.ButtonGroup PoliticasButts;
+    private javax.swing.JRadioButton RoundButt;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JRadioButton jRadioButton5;
     // End of variables declaration//GEN-END:variables

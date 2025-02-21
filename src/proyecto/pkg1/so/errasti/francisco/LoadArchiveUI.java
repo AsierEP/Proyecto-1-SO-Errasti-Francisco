@@ -10,6 +10,7 @@ import EDD.Semaforo;
 import Objects.Proceso;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import com.google.gson.Gson;
 import java.io.IOException;
 
 /**
@@ -30,91 +31,32 @@ public class LoadArchiveUI extends javax.swing.JFrame {
         this.creacion=new ProcessConfUI();
     }
     
-public MainUI restablecerEstado(String path) {
-    try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
-        Semaforo semaforo = null;
-        Cola colaL = null;
-        Cola colaT = null;
-        Cola colaB = null;
-        int cicloReloj = 0;
-        int numProcesadores = 0;
-        Proceso en1 = null;
-        Proceso en2 = null;
-        Proceso en3 = null;
+    public MainUI restablecerEstado(String rutaArchivo) {
+        Gson gson = new Gson();
 
-        String line;
-        while ((line = reader.readLine()) != null) {
-            if (line.startsWith("Semáforo: ")) {
-                semaforo = new Semaforo();
-            } else if (line.startsWith("Cola L: ")) {
-                colaL = new Cola();
-            } else if (line.startsWith("Cola T: ")) {
-                colaT = new Cola();
-            } else if (line.startsWith("Cola B: ")) {
-                colaB = new Cola();
-            } else if (line.startsWith("Ciclo Reloj: ")) {
-                cicloReloj = Integer.parseInt(line.substring(13).trim());
-            } else if (line.startsWith("Número de CPUs: ")) {
-                numProcesadores = Integer.parseInt(line.substring(16).trim());
-            } else if (line.startsWith("CPU1 Proceso Actual: ")) {
-                String procesoData = line.substring(21).trim();
-                if (!procesoData.equals("null")) {
-                    en1 = new Proceso("Proceso1", 10, "CPU", 1);
-                }
-            } else if (line.startsWith("CPU2 Proceso Actual: ")) {
-                String procesoData = line.substring(21).trim();
-                if (!procesoData.equals("null")) {
-                    en2 = new Proceso("Proceso2", 15, "CPU", 2);
-                }
-            } else if (line.startsWith("CPU3 Proceso Actual: ")) {
-                String procesoData = line.substring(21).trim();
-                if (!procesoData.equals("null")) {
-                    en3 = new Proceso("Proceso3", 20, "CPU", 3);
-                }
+        try (FileReader reader = new FileReader(rutaArchivo)) {
+            Simulacion estado = gson.fromJson(reader, Simulacion.class);
+
+            Semaforo semaf = estado.getSemaforo();
+            Cola colaL = estado.getColaL();
+            Cola colaT = estado.getColaT();
+            Cola colaB = estado.getColaB();
+            int cicloreloj = estado.getCicloReloj();
+            int numcpu = estado.getNumProcesadores();
+            String pl = estado.getPolitica();
+            
+            if(numcpu==2){
+                MainUI sim = new MainUI(pl,cicloreloj, numcpu,colaL,colaB,colaT,estado.getPen1(),estado.getPen2(),semaf);
+                return sim;
+            }else{
+                MainUI sim = new MainUI(pl,cicloreloj,numcpu,colaL,colaB,colaT,estado.getPen1(),estado.getPen2(),estado.getPen3(),semaf);
+                return sim;
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        if (semaforo == null) semaforo = new Semaforo();
-        if (colaL == null) colaL = new Cola();
-        if (colaT == null) colaT = new Cola();
-        if (colaB == null) colaB = new Cola();
-
-        Simulacion simulacion = new Simulacion(semaforo, colaL, colaT, colaB, cicloReloj, numProcesadores, en1, en2, en3);
-
-        if (numProcesadores == 2) {
-            return new MainUI(
-                simulacion.getCicloReloj(),
-                simulacion.getNumProcesadores(),
-                simulacion.getColaL(),
-                simulacion.getColaB(),
-                simulacion.getColaT(),
-                simulacion.getPen1(),
-                simulacion.getPen2(),
-                simulacion.getSemaforo()
-            );
-        } else if (numProcesadores == 3) {
-            return new MainUI(
-                simulacion.getCicloReloj(),
-                simulacion.getNumProcesadores(),
-                simulacion.getColaL(),
-                simulacion.getColaB(),
-                simulacion.getColaT(),
-                simulacion.getPen1(),
-                simulacion.getPen2(),
-                simulacion.getPen3(),
-                simulacion.getSemaforo()
-            );
-        } else {
-            System.err.println("Número de CPUs no válido: " + numProcesadores);
-        }
-    } catch (IOException e) {
-        e.printStackTrace();
-    } catch (NumberFormatException e) {
-        System.err.println("Error al convertir un número en el archivo.");
-        e.printStackTrace();
+        return null;
     }
-    return null;
-}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -139,12 +81,27 @@ public MainUI restablecerEstado(String path) {
         jLabel2.setText("Hecho por Asier errasti y Jose Francisco");
 
         SavedProcessButt.setText("Cargar procesos guardados");
+        SavedProcessButt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SavedProcessButtActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Seleccione una opción:");
 
         LoadProcessButt.setText("Cargar nuevos procesos");
+        LoadProcessButt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LoadProcessButtActionPerformed(evt);
+            }
+        });
 
         StartProcessButt.setText("Iniciar nuevos procesos");
+        StartProcessButt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                StartProcessButtActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -199,6 +156,22 @@ public MainUI restablecerEstado(String path) {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void SavedProcessButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SavedProcessButtActionPerformed
+        MainUI sim = this.restablecerEstado("test//simulacion.json");
+        sim.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_SavedProcessButtActionPerformed
+
+    private void LoadProcessButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadProcessButtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_LoadProcessButtActionPerformed
+
+    private void StartProcessButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartProcessButtActionPerformed
+        NumCPUConfUI n = new NumCPUConfUI(this);
+        n.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_StartProcessButtActionPerformed
 
     /**
      * @param args the command line arguments
