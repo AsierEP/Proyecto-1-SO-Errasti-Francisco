@@ -18,7 +18,6 @@ public class CiclosRelojConfUI extends javax.swing.JFrame {
     public CiclosRelojConfUI(MainUI sim) {
         initComponents();
         this.setLocationRelativeTo(null);
-        this.setSize(420,320);
         this.setResizable(false);
         this.sim = sim;
 
@@ -52,7 +51,9 @@ public class CiclosRelojConfUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        TitleLab.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        CiclosBackgroundPanel.setBackground(new java.awt.Color(255, 51, 153));
+
+        TitleLab.setFont(new java.awt.Font("Californian FB", 1, 18)); // NOI18N
         TitleLab.setText("Bienvenido a la configuración de cilos de reloj");
 
         Lab1.setText("Introduzca la nueva duración de un ciclo de reloj en milisegundos:");
@@ -60,6 +61,7 @@ public class CiclosRelojConfUI extends javax.swing.JFrame {
         CiclosTF.setForeground(new java.awt.Color(204, 204, 204));
         CiclosTF.setText("Ej: 3000");
 
+        AplicarButt.setBackground(new java.awt.Color(102, 255, 102));
         AplicarButt.setText("Aplicar");
         AplicarButt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -67,6 +69,7 @@ public class CiclosRelojConfUI extends javax.swing.JFrame {
             }
         });
 
+        BacktoMainUIButt.setBackground(new java.awt.Color(255, 255, 153));
         BacktoMainUIButt.setText("Volver");
         BacktoMainUIButt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -94,7 +97,7 @@ public class CiclosRelojConfUI extends javax.swing.JFrame {
                     .addGroup(CiclosBackgroundPanelLayout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addComponent(BacktoMainUIButt)))
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
         CiclosBackgroundPanelLayout.setVerticalGroup(
             CiclosBackgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -107,7 +110,7 @@ public class CiclosRelojConfUI extends javax.swing.JFrame {
                 .addComponent(CiclosTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
                 .addComponent(AplicarButt, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
                 .addComponent(BacktoMainUIButt)
                 .addGap(25, 25, 25))
         );

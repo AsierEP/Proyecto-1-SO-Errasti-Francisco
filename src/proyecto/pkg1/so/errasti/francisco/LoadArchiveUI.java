@@ -76,10 +76,14 @@ public class LoadArchiveUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 153));
+
+        jLabel1.setFont(new java.awt.Font("Californian FB", 1, 18)); // NOI18N
         jLabel1.setText("Bienvenido a la simulación de planificación");
 
         jLabel2.setText("Hecho por Asier errasti y Jose Francisco");
 
+        SavedProcessButt.setBackground(new java.awt.Color(153, 255, 204));
         SavedProcessButt.setText("Cargar procesos guardados");
         SavedProcessButt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -89,6 +93,7 @@ public class LoadArchiveUI extends javax.swing.JFrame {
 
         jLabel3.setText("Seleccione una opción:");
 
+        LoadProcessButt.setBackground(new java.awt.Color(102, 255, 153));
         LoadProcessButt.setText("Cargar nuevos procesos");
         LoadProcessButt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -96,6 +101,7 @@ public class LoadArchiveUI extends javax.swing.JFrame {
             }
         });
 
+        StartProcessButt.setBackground(new java.awt.Color(204, 255, 153));
         StartProcessButt.setText("Iniciar nuevos procesos");
         StartProcessButt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -113,9 +119,6 @@ public class LoadArchiveUI extends javax.swing.JFrame {
                         .addGap(145, 145, 145)
                         .addComponent(jLabel3))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(99, 99, 99)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(113, 113, 113)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
@@ -123,7 +126,11 @@ public class LoadArchiveUI extends javax.swing.JFrame {
                                 .addComponent(StartProcessButt, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(LoadProcessButt, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(SavedProcessButt, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)))))
-                .addContainerGap(121, Short.MAX_VALUE))
+                .addContainerGap(129, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(63, 63, 63))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,7 +147,7 @@ public class LoadArchiveUI extends javax.swing.JFrame {
                 .addComponent(LoadProcessButt, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(StartProcessButt, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(88, Short.MAX_VALUE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
