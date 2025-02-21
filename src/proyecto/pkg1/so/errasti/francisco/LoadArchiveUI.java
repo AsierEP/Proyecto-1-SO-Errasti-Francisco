@@ -30,13 +30,12 @@ public class LoadArchiveUI extends javax.swing.JFrame {
         this.creacion=new ProcessConfUI();
     }
     
-    public MainUI restablecerEstado(String path) {
+    public MainUI restablecerEstado(String rutaArchivo) {
         Gson gson = new Gson();
 
-        try (FileReader reader = new FileReader(path)) {
+        try (FileReader reader = new FileReader(rutaArchivo)) {
             Simulacion estado = gson.fromJson(reader, Simulacion.class);
-
-            Semaforo semaf = estado.getSemaforo();
+            Semaforo s = estado.getSemaforo();
             Cola colaL = estado.getColaL();
             Cola colaT = estado.getColaT();
             Cola colaB = estado.getColaB();
@@ -45,10 +44,10 @@ public class LoadArchiveUI extends javax.swing.JFrame {
             String pl = estado.getPolitica();
             
             if(numcpu==2){
-                MainUI sim = new MainUI(pl,cicloreloj, numcpu,colaL,colaB,colaT,estado.getPen1(),estado.getPen2(),semaf);
+                MainUI sim = new MainUI(pl,cicloreloj, numcpu,colaL,colaB,colaT,estado.getPen1(),estado.getPen2(),s);
                 return sim;
             }else{
-                MainUI sim = new MainUI(pl,cicloreloj,numcpu,colaL,colaB,colaT,estado.getPen1(),estado.getPen2(),estado.getPen3(),semaf);
+                MainUI sim = new MainUI(pl,cicloreloj,numcpu,colaL,colaB,colaT,estado.getPen1(),estado.getPen2(),estado.getPen3(),s);
                 return sim;
             }
         } catch (IOException e) {

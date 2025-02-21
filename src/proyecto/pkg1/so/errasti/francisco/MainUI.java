@@ -11,6 +11,7 @@ import Objects.Procesador;
 import Objects.Proceso;
 import Objects.Simulacion;
 import EDD.Semaforo;
+import Objects.Dispatcher;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -37,7 +38,7 @@ public final class MainUI extends javax.swing.JFrame {
     Procesador P1;
     Procesador P2;
     Procesador P3;
-    BIOS bios;
+    Dispatcher bios;
     int cantcpu;
     String politica;
     boolean Cambio = false;
@@ -84,7 +85,6 @@ public final class MainUI extends javax.swing.JFrame {
         this.P2TA.setEditable(false);
         this.P3TA.setEditable(false);
         this.colaL=colalistos;
-        cargarProcesadores();
         this.colaT = new Cola();
         this.colaB = new Cola();
         ActualizarLabels(i);
@@ -108,7 +108,7 @@ public final class MainUI extends javax.swing.JFrame {
         this.setPolitica(plt);
         this.s=s;
         this.setCicloreloj(d);
-        this.bios= new BIOS(this);
+        this.bios= new Dispatcher(this);
         this.cantcpu=i;
         this.ProcessReadyList.setEditable(false);
         this.ProcessBlockedList.setEditable(false);
@@ -141,7 +141,7 @@ public final class MainUI extends javax.swing.JFrame {
         this.setPolitica(plt);
         this.s=s;
         this.setCicloreloj(d);
-        this.bios= new BIOS(this);
+        this.bios= new Dispatcher(this);
         this.cantcpu=i;
         this.ProcessReadyList.setEditable(false);
         this.ProcessBlockedList.setEditable(false);
@@ -238,10 +238,8 @@ public final class MainUI extends javax.swing.JFrame {
     }
     
     public void actualizarBloqueados(Proceso t){
-        Cola copia = this.colaB.copy();
-        copia.AddElement(t);
+        this.colaB.AddElement(t);
         this.ProcessBlockedList.setText(colaB.print());
-        this.colaB=copia;
     }
     
     public void actualizarBloqueadosR(){
@@ -298,7 +296,7 @@ public final class MainUI extends javax.swing.JFrame {
             P2 = new Procesador(2,s,this.getCicloreloj(),this);
             P2.start();
         }
-        this.bios=new BIOS(this);
+        this.bios=new Dispatcher(this);
         bios.start();
     }
     
@@ -353,40 +351,28 @@ public final class MainUI extends javax.swing.JFrame {
     }
     
     public void guardarEstado(String rutaArchivo) {
-        detenerHilos(); // Detener los hilos antes de guardar
-        unirColaListos();
-        if(this.cantcpu==3){
-            Proceso p1 = P1.getProcesoActual();
-            Proceso p2 = P2.getProcesoActual();
-            Proceso p3 = P3.getProcesoActual();
+        Simulacion estado = new Simulacion(this.cantcpu,this.cicloreloj);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-            Simulacion estado = new Simulacion(this.getPolitica(),this.s,this.colaL, this.colaT, this.colaB, this.cicloreloj,this.cantcpu,p1,p2,p3);
-
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-            try (FileWriter writer = new FileWriter(rutaArchivo)) {
-                gson.toJson(estado, writer);
-                System.out.println("Estado de la simulación guardado en: " + rutaArchivo);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else{
-            Proceso p1 = P1.getProcesoActual();
-            Proceso p2 = P2.getProcesoActual();
-
-            Simulacion estado = new Simulacion(this.getPolitica(),this.s, this.colaL, this.colaT, this.colaB, this.cicloreloj,this.cantcpu,p1,p2);
-
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-            try (FileWriter writer = new FileWriter(rutaArchivo)) {
-                gson.toJson(estado, writer); // Serializar el objeto contenedor
-                System.out.println("Estado de la simulación guardado en: " + rutaArchivo);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try (FileWriter writer = new FileWriter(rutaArchivo)) {
+            gson.toJson(estado, writer);
+            System.out.println("Estado de la simulación guardado en: " + rutaArchivo);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
     
+        public void informarCPUS(){
+        if(this.cantcpu==3){
+            P1.seAgrego();
+            P2.seAgrego();
+            P3.seAgrego();
+        }else if (this.cantcpu==2){
+            P1.seAgrego();
+            P2.seAgrego();
+        }
+    }
+        
     public void ActualizarLabels(int i) {
     Color verde = new Color(0, 128, 0);
     switch (i) {
@@ -766,6 +752,8 @@ public final class MainUI extends javax.swing.JFrame {
 
     private void ToCiclosButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ToCiclosButtActionPerformed
         CiclosRelojConfUI cambio = new CiclosRelojConfUI(this);
+        cambio.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_ToCiclosButtActionPerformed
 
     private void ToPoliticasButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ToPoliticasButtActionPerformed

@@ -24,6 +24,8 @@ public class Proceso {
     private int MAR;
     private boolean IO;
     private int insblocked;
+    private int insEspera=0;
+    private int TasaRespuesta;
     
     //CPU Bound
     public Proceso(String nombre, int insfaltantes, String tipo, int prioridad) {
@@ -77,6 +79,11 @@ public class Proceso {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+    
+    public int getTasaRespuesta() {
+        this.TasaRespuesta = ((insEspera+this.insfaltantes)/this.insfaltantes);
+        return TasaRespuesta;
+    }
 
     public int getInsfaltantes() {
         return insfaltantes;
@@ -125,6 +132,10 @@ public class Proceso {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+    
+    public void sumarEspera(){
+        this.insEspera++;
     }
 
     public int getPC() {

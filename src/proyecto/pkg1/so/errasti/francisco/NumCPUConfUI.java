@@ -4,6 +4,10 @@
  */
 package proyecto.pkg1.so.errasti.francisco;
 
+import Objects.Simulacion;
+import com.google.gson.Gson;
+import java.io.FileReader;
+import java.io.IOException;
 /**
  *
  * @author Dell
@@ -11,6 +15,8 @@ package proyecto.pkg1.so.errasti.francisco;
 public class NumCPUConfUI extends javax.swing.JFrame {
 
     private LoadArchiveUI carga;
+    private int cicloreloj;
+    private int cantcpu;
     /**
      * Creates new form NumCPUConfUI
      */
@@ -44,6 +50,17 @@ public class NumCPUConfUI extends javax.swing.JFrame {
         return Integer.parseInt(CiclosTF.getText());
     }
         
+        public void restablecerEstado(String rutaArchivo) {
+        Gson gson = new Gson();
+
+        try (FileReader reader = new FileReader(rutaArchivo)) {
+            Simulacion estado = gson.fromJson(reader, Simulacion.class);
+            cicloreloj = estado.getCicloReloj();
+            cantcpu = estado.getNumProcesadores();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -62,6 +79,7 @@ public class NumCPUConfUI extends javax.swing.JFrame {
         Lab2 = new javax.swing.JLabel();
         BacktoMainUIButt = new javax.swing.JButton();
         AplicarButt = new javax.swing.JButton();
+        ImportButt = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 0));
@@ -104,6 +122,14 @@ public class NumCPUConfUI extends javax.swing.JFrame {
             }
         });
 
+        ImportButt.setBackground(new java.awt.Color(153, 255, 204));
+        ImportButt.setText("Importar");
+        ImportButt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ImportButtActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -118,7 +144,9 @@ public class NumCPUConfUI extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(Lab2, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(CiclosTF, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ImportButt)
+                            .addComponent(CiclosTF, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(165, 165, 165))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(31, 31, 31)
@@ -147,7 +175,8 @@ public class NumCPUConfUI extends javax.swing.JFrame {
                 .addGap(128, 128, 128)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BacktoMainUIButt)
-                    .addComponent(AplicarButt))
+                    .addComponent(AplicarButt)
+                    .addComponent(ImportButt))
                 .addGap(17, 17, 17))
         );
 
@@ -196,6 +225,15 @@ public class NumCPUConfUI extends javax.swing.JFrame {
     private void CiclosTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CiclosTFActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_CiclosTFActionPerformed
+
+    private void ImportButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImportButtActionPerformed
+        this.restablecerEstado("test//simulacion.json");
+        MainUI sim = new MainUI("FCFS",cantcpu,cicloreloj);
+        ProcessConfUI l = new ProcessConfUI(sim,cantcpu,cicloreloj);
+        sim.setVisible(true);
+        l.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_ImportButtActionPerformed
 
     
     private void CantCPUTFMouseClicked(java.awt.event.MouseEvent evt) {                                          
@@ -246,6 +284,7 @@ public class NumCPUConfUI extends javax.swing.JFrame {
     private javax.swing.JButton BacktoMainUIButt;
     private javax.swing.JTextField CantCPUTF;
     private javax.swing.JTextField CiclosTF;
+    private javax.swing.JButton ImportButt;
     private javax.swing.JLabel Lab1;
     private javax.swing.JLabel Lab2;
     private javax.swing.JLabel TittleLab;

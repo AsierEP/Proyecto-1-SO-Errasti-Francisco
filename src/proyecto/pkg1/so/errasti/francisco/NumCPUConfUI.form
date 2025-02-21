@@ -83,7 +83,10 @@
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="Lab2" min="-2" pref="156" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="CiclosTF" min="-2" pref="145" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="ImportButt" min="-2" max="-2" attributes="0"/>
+                                  <Component id="CiclosTF" min="-2" pref="145" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                       <EmptySpace min="-2" pref="165" max="-2" attributes="0"/>
@@ -121,6 +124,7 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="BacktoMainUIButt" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="AplicarButt" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="ImportButt" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                   </Group>
@@ -185,6 +189,17 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AplicarButtActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="ImportButt">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="cc" green="ff" red="99" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Importar"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ImportButtActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

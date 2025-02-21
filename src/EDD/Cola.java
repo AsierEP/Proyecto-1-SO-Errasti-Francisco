@@ -66,6 +66,29 @@ public class Cola {
         return elemento;
     }
         
+            public Proceso RemoveLast() {
+        if (IsEmpty()) {
+            System.out.println("La cola está vacía. No se puede remover un elemento.");
+            return null;
+        }
+        if (pfirst == plast) {
+            Proceso elemento = plast.getNodo();
+            pfirst = null;
+            plast = null;
+            size--;
+            return elemento;
+        }
+        Node aux = pfirst;
+        while (aux.getPnext()!= plast) {
+            aux = aux.getPnext();
+        }
+        Proceso elemento = plast.getNodo();
+        plast = aux;
+        plast.setPnext(null);
+        size--;
+        return elemento;
+    }
+        
         public int GetSize(){
             return size;
         }
@@ -107,4 +130,65 @@ public class Cola {
         return r;
     }
     
+    
+    public Proceso eliminarMasCorto() {
+        if (pfirst == null) {
+            return null;
+        }
+        Node actual = pfirst;
+        Node anterior = null;
+
+        Node nodoMasCorto = pfirst;
+        Node anteriorMasCorto = null;
+
+        while (actual != null) {
+            if (actual.getNodo().getInsfaltantes()< nodoMasCorto.getNodo().getInsfaltantes()) {
+                nodoMasCorto = actual;
+                anteriorMasCorto = anterior;
+            }
+            anterior = actual;
+            actual = actual.getPnext();
+        }
+        if (nodoMasCorto == pfirst) {
+            pfirst = pfirst.getPnext();
+        } else {
+            anteriorMasCorto.setPnext(nodoMasCorto.getPnext());
+        }
+        if (nodoMasCorto == plast) {
+            plast = anteriorMasCorto;
+        }
+
+        size--;
+        return nodoMasCorto.getNodo();
+    }
+    
+    public Proceso eliminarMayorTasaRespuesta() {
+        if (pfirst == null) {
+            return null;
+        }
+        Node actual = pfirst;
+        Node anterior = null;
+
+        Node nodoMasCorto = pfirst;
+        Node anteriorMasCorto = null;
+        while (actual != null) {
+            if (actual.getNodo().getTasaRespuesta() > nodoMasCorto.getNodo().getTasaRespuesta()) {
+                nodoMasCorto = actual;
+                anteriorMasCorto = anterior;
+            }
+            anterior = actual;
+            actual = actual.getPnext();
+        }
+        if (nodoMasCorto == pfirst) {
+            pfirst = pfirst.getPnext();
+        } else {
+            anteriorMasCorto.setPnext(nodoMasCorto.getPnext());
+        }
+
+        if (nodoMasCorto == plast) {
+            plast = anteriorMasCorto;
+        }
+        size--;
+        return nodoMasCorto.getNodo();
+    }
 }

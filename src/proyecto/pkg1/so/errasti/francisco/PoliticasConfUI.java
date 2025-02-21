@@ -26,19 +26,6 @@ public class PoliticasConfUI extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setSize(600,400);
-        
-        PoliticasButts = new ButtonGroup();
-        PoliticasButts.add(FIFOButt);
-        PoliticasButts.add(FCFSButt);
-        PoliticasButts.add(RoundButt);
-        PoliticasButts.add(jRadioButton4);
-        PoliticasButts.add(jRadioButton5);
-
-
-    }
-    
-    public void seleccionarFCFS() {
-        FCFSButt.setSelected(true);
     }
 
     /**
@@ -50,16 +37,14 @@ public class PoliticasConfUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        PoliticasButts = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         BacktoMainUIButt = new javax.swing.JButton();
-        FIFOButt = new javax.swing.JRadioButton();
-        jRadioButton4 = new javax.swing.JRadioButton();
-        FCFSButt = new javax.swing.JRadioButton();
-        jRadioButton5 = new javax.swing.JRadioButton();
-        RoundButt = new javax.swing.JRadioButton();
         jLabel1 = new javax.swing.JLabel();
-        AplicarButt = new javax.swing.JButton();
+        FCFSButt = new javax.swing.JButton();
+        SPNButt = new javax.swing.JButton();
+        RRButt = new javax.swing.JButton();
+        HRRNButt = new javax.swing.JButton();
+        SRTButt = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -73,24 +58,46 @@ public class PoliticasConfUI extends javax.swing.JFrame {
             }
         });
 
-        FIFOButt.setText("FIFO");
-
-        jRadioButton4.setText("jRadioButton4");
-
-        FCFSButt.setText("FCFS");
-
-        jRadioButton5.setText("jRadioButton5");
-
-        RoundButt.setText("Round Robin");
-
         jLabel1.setFont(new java.awt.Font("Californian FB", 1, 18)); // NOI18N
         jLabel1.setText("Bienvenido a la configuración de la política de vaciado");
 
-        AplicarButt.setBackground(new java.awt.Color(153, 153, 255));
-        AplicarButt.setText("Aplicar");
-        AplicarButt.addActionListener(new java.awt.event.ActionListener() {
+        FCFSButt.setBackground(new java.awt.Color(255, 102, 102));
+        FCFSButt.setText("FCFS");
+        FCFSButt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AplicarButtActionPerformed(evt);
+                FCFSButtActionPerformed(evt);
+            }
+        });
+
+        SPNButt.setBackground(new java.awt.Color(255, 153, 0));
+        SPNButt.setText("SPN");
+        SPNButt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SPNButtActionPerformed(evt);
+            }
+        });
+
+        RRButt.setBackground(new java.awt.Color(255, 153, 102));
+        RRButt.setText("RR");
+        RRButt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RRButtActionPerformed(evt);
+            }
+        });
+
+        HRRNButt.setBackground(new java.awt.Color(255, 204, 153));
+        HRRNButt.setText("HRRN");
+        HRRNButt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HRRNButtActionPerformed(evt);
+            }
+        });
+
+        SRTButt.setBackground(new java.awt.Color(255, 255, 204));
+        SRTButt.setText("SRT");
+        SRTButt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SRTButtActionPerformed(evt);
             }
         });
 
@@ -101,51 +108,37 @@ public class PoliticasConfUI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(69, 69, 69)
-                                .addComponent(jRadioButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jRadioButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(89, 89, 89))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(AplicarButt)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(FIFOButt, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(107, 107, 107)
-                                        .addComponent(FCFSButt, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 181, Short.MAX_VALUE)
-                                .addComponent(RoundButt, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(32, 32, 32)
+                        .addComponent(BacktoMainUIButt))
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(93, 93, 93)
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(256, 256, 256)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(32, 32, 32)
-                                .addComponent(BacktoMainUIButt))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(93, 93, 93)
-                                .addComponent(jLabel1)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                            .addComponent(SPNButt)
+                            .addComponent(FCFSButt)
+                            .addComponent(RRButt)
+                            .addComponent(HRRNButt)
+                            .addComponent(SRTButt))))
+                .addContainerGap(112, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(114, 114, 114)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(FIFOButt)
-                    .addComponent(FCFSButt)
-                    .addComponent(RoundButt))
-                .addGap(40, 40, 40)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton4)
-                    .addComponent(jRadioButton5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
-                .addComponent(AplicarButt)
-                .addGap(46, 46, 46)
+                .addGap(18, 18, 18)
+                .addComponent(FCFSButt)
+                .addGap(34, 34, 34)
+                .addComponent(SPNButt)
+                .addGap(34, 34, 34)
+                .addComponent(RRButt)
+                .addGap(32, 32, 32)
+                .addComponent(HRRNButt)
+                .addGap(34, 34, 34)
+                .addComponent(SRTButt)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
                 .addComponent(BacktoMainUIButt)
                 .addGap(17, 17, 17))
         );
@@ -169,23 +162,45 @@ public class PoliticasConfUI extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_BacktoMainUIButtActionPerformed
 
-    private void AplicarButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AplicarButtActionPerformed
-    if (FIFOButt.isSelected()) {
-        sim.setPolitica("FIFO");
-    } else if (FCFSButt.isSelected()) {
-        sim.setPolitica("FCFS");
-    } else if (RoundButt.isSelected()) {
-        sim.setPolitica("Round Robin");
-    } else if (jRadioButton4.isSelected()) {
-        sim.setPolitica("jRadioButton4");
-    } else if (jRadioButton5.isSelected()) {
-        sim.setPolitica("jRadioButton5");
-    } else {
-        System.out.println("Ninguna política seleccionada.");
-    }
+    private void FCFSButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FCFSButtActionPerformed
+        this.sim.setPolitica("FCFS");
+        javax.swing.JOptionPane.showMessageDialog(this, "Se aplicó la política FCFS");
+        this.sim.cambio();
+        this.sim.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_FCFSButtActionPerformed
 
-    System.out.println("Política aplicada: " + sim.getPolitica());
-    }//GEN-LAST:event_AplicarButtActionPerformed
+    private void SPNButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SPNButtActionPerformed
+        this.sim.setPolitica("SPN");
+        javax.swing.JOptionPane.showMessageDialog(this, "Se aplicó la política SPN");
+        this.sim.cambio();
+        this.sim.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_SPNButtActionPerformed
+
+    private void HRRNButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HRRNButtActionPerformed
+        this.sim.setPolitica("HRRN");
+        javax.swing.JOptionPane.showMessageDialog(this, "Se aplicó la política HRRN");
+        this.sim.cambio();
+        this.sim.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_HRRNButtActionPerformed
+
+    private void RRButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RRButtActionPerformed
+        this.sim.setPolitica("RR");
+        javax.swing.JOptionPane.showMessageDialog(this, "Se aplicó la política RR");
+        this.sim.cambio();
+        this.sim.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_RRButtActionPerformed
+
+    private void SRTButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SRTButtActionPerformed
+        this.sim.setPolitica("SRT");
+        javax.swing.JOptionPane.showMessageDialog(this, "Se aplicó la política SRT");
+        this.sim.cambio();
+        this.sim.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_SRTButtActionPerformed
 
     /**
      * @param args the command line arguments
@@ -223,15 +238,13 @@ public class PoliticasConfUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton AplicarButt;
     private javax.swing.JButton BacktoMainUIButt;
-    private javax.swing.JRadioButton FCFSButt;
-    private javax.swing.JRadioButton FIFOButt;
-    private javax.swing.ButtonGroup PoliticasButts;
-    private javax.swing.JRadioButton RoundButt;
+    private javax.swing.JButton FCFSButt;
+    private javax.swing.JButton HRRNButt;
+    private javax.swing.JButton RRButt;
+    private javax.swing.JButton SPNButt;
+    private javax.swing.JButton SRTButt;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton jRadioButton4;
-    private javax.swing.JRadioButton jRadioButton5;
     // End of variables declaration//GEN-END:variables
 }

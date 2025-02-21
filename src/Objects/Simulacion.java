@@ -51,6 +51,11 @@ public class Simulacion {
         this.politica=politca;
     }
 
+    public Simulacion(int cpu, int dur){
+        this.numProcesadores=cpu;
+        this.cicloReloj=dur;
+    }
+        
     public Semaforo getSemaforo() {
         return semaforo;
     }
