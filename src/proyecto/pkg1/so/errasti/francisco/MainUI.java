@@ -748,9 +748,8 @@ public final class MainUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ToProcessButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ToProcessButtActionPerformed
-        ProcessConfUI pc = new ProcessConfUI();
-        pc.setVisible(true);
-        this.setVisible(false);
+        ProcessConfUI n = new ProcessConfUI(this,this.cantcpu,this.cicloreloj);
+        n.setVisible(true);
     }//GEN-LAST:event_ToProcessButtActionPerformed
 
     private void ToCiclosButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ToCiclosButtActionPerformed
@@ -765,7 +764,7 @@ public final class MainUI extends javax.swing.JFrame {
     }//GEN-LAST:event_ToPoliticasButtActionPerformed
 
     private void EndButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EndButtActionPerformed
-        this.guardarEstado("src/proyecto/pkg1/so/errasti/francisco/simulacion.json");
+        this.guardarEstado("test//simulacion.json");
         this.dispose();
         System.exit(0);
     }//GEN-LAST:event_EndButtActionPerformed

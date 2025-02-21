@@ -1,4 +1,4 @@
 {
-  "cicloReloj": 5000,
-  "numProcesadores": 1
+  "cicloReloj": 3000,
+  "numProcesadores": 3
 }

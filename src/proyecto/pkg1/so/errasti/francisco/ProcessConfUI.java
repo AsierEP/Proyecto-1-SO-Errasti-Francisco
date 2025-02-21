@@ -7,6 +7,7 @@ package proyecto.pkg1.so.errasti.francisco;
 import EDD.Cola;
 import Objects.Proceso;
 import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Dell
@@ -47,7 +48,7 @@ public class ProcessConfUI extends javax.swing.JFrame {
             CantInstTFMouseClicked(evt);
         }
     });
-        CantInstIOTF.addMouseListener(new java.awt.event.MouseAdapter() {
+        InicioExcTF.addMouseListener(new java.awt.event.MouseAdapter() {
         public void mouseClicked(java.awt.event.MouseEvent evt) {
             CantInstIOTFMouseClicked(evt);
         }
@@ -58,30 +59,42 @@ public class ProcessConfUI extends javax.swing.JFrame {
             PriorityTFMouseClicked(evt);
         }
     });
+        
+        InicioExcTF.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            InicioExcTFMouseClicked(evt);
+        }
+    });
+        
+        FinExcTF.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            FinExcTFMouseClicked(evt);
+        }
+    });
         IOBoundButt.addItemListener(new java.awt.event.ItemListener() {
         public void itemStateChanged(java.awt.event.ItemEvent evt) {
             if (IOBoundButt.isSelected()) {
                 Lab2.setVisible(true);
                 Lab3.setVisible(true);
-                CantInstIOTF.setVisible(true);
+                InicioExcTF.setVisible(true);
             } else {
                 Lab2.setVisible(false);
                 Lab3.setVisible(false);
-                CantInstIOTF.setVisible(false);
+                InicioExcTF.setVisible(false);
             }
         }
     });
         
         Lab2.setVisible(false);
         Lab3.setVisible(false);
-        CantInstIOTF.setVisible(false);
+        InicioExcTF.setVisible(false);
     }
     
-        public ProcessConfUI(MainUI sim, int cantcpu, int time) {
+        public ProcessConfUI(MainUI si, int cantcpu, int time) {
         initComponents();
         this.numProcesadores=cantcpu;
         this.duracionCiclo=time;
-        this.sim = sim;
+        this.sim = si;
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         
@@ -99,15 +112,21 @@ public class ProcessConfUI extends javax.swing.JFrame {
             CantInstTFMouseClicked(evt);
         }
     });
-        CantInstIOTF.addMouseListener(new java.awt.event.MouseAdapter() {
+        
+        PriorityTF.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            PriorityTFMouseClicked(evt);
+        }
+    });
+        InicioExcTF.addMouseListener(new java.awt.event.MouseAdapter() {
         public void mouseClicked(java.awt.event.MouseEvent evt) {
             CantInstIOTFMouseClicked(evt);
         }
     });
         
-        PriorityTF.addMouseListener(new java.awt.event.MouseAdapter() {
+        FinExcTF.addMouseListener(new java.awt.event.MouseAdapter() {
         public void mouseClicked(java.awt.event.MouseEvent evt) {
-            PriorityTFMouseClicked(evt);
+            FinExcTFMouseClicked(evt);
         }
     });
         IOBoundButt.addItemListener(new java.awt.event.ItemListener() {
@@ -115,18 +134,27 @@ public class ProcessConfUI extends javax.swing.JFrame {
             if (IOBoundButt.isSelected()) {
                 Lab2.setVisible(true);
                 Lab3.setVisible(true);
-                CantInstIOTF.setVisible(true);
+                InicioExcTF.setVisible(true);
+                IOBoundLab.setVisible(true);
+                IOBoundLab2.setVisible(true);
+                FinExcTF.setVisible(true);
             } else {
                 Lab2.setVisible(false);
                 Lab3.setVisible(false);
-                CantInstIOTF.setVisible(false);
+                InicioExcTF.setVisible(false);
+                IOBoundLab.setVisible(false);
+                IOBoundLab2.setVisible(false);
+                FinExcTF.setVisible(false);
             }
         }
     });
         
         Lab2.setVisible(false);
         Lab3.setVisible(false);
-        CantInstIOTF.setVisible(false);
+        InicioExcTF.setVisible(false);
+        IOBoundLab.setVisible(false);
+        IOBoundLab2.setVisible(false);
+        FinExcTF.setVisible(false);
     }
     
     
@@ -134,7 +162,7 @@ public class ProcessConfUI extends javax.swing.JFrame {
         this.NameTF.setText("");
         this.PriorityTF.setText("");
         this.CantInstTF.setText("");
-        this.CantInstIOTF.setText("");
+        this.InicioExcTF.setText("");
     }
 
     /**
@@ -152,7 +180,7 @@ public class ProcessConfUI extends javax.swing.JFrame {
         CrearProcesoButt = new javax.swing.JButton();
         PriorityTF = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        CantInstIOTF = new javax.swing.JTextField();
+        InicioExcTF = new javax.swing.JTextField();
         Lab3 = new javax.swing.JLabel();
         Lab2 = new javax.swing.JLabel();
         IOBoundButt = new javax.swing.JRadioButton();
@@ -163,6 +191,9 @@ public class ProcessConfUI extends javax.swing.JFrame {
         NameLab = new javax.swing.JLabel();
         Lab1 = new javax.swing.JLabel();
         PCTittle = new javax.swing.JLabel();
+        IOBoundLab = new javax.swing.JLabel();
+        IOBoundLab2 = new javax.swing.JLabel();
+        FinExcTF = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 153, 255));
@@ -191,8 +222,8 @@ public class ProcessConfUI extends javax.swing.JFrame {
 
         jLabel1.setText("Prioridad:");
 
-        CantInstIOTF.setForeground(new java.awt.Color(204, 204, 204));
-        CantInstIOTF.setText("Ej: 3,5");
+        InicioExcTF.setForeground(new java.awt.Color(204, 204, 204));
+        InicioExcTF.setText("Ej: 3");
 
         Lab3.setText("De ciclos en el que se realiza la excepción y en el que termina");
 
@@ -227,6 +258,13 @@ public class ProcessConfUI extends javax.swing.JFrame {
         PCTittle.setFont(new java.awt.Font("Californian FB", 1, 18)); // NOI18N
         PCTittle.setText("Configuración de procesos");
 
+        IOBoundLab.setText("Inicio:");
+
+        IOBoundLab2.setText("Finalizar:");
+
+        FinExcTF.setForeground(new java.awt.Color(204, 204, 204));
+        FinExcTF.setText("Ej: 4");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -241,8 +279,8 @@ public class ProcessConfUI extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel1)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(CantInstTF, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(PriorityTF, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(Lab2, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -255,7 +293,7 @@ public class ProcessConfUI extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(CantInsLab)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(PriorityTF, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(CantInstTF, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(Lab1)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addGroup(jPanel1Layout.createSequentialGroup()
@@ -267,16 +305,23 @@ public class ProcessConfUI extends javax.swing.JFrame {
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                             .addComponent(NameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(145, 145, 145)
-                                .addComponent(CantInstIOTF, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(134, 134, 134)
+                                .addComponent(PCTittle))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(189, 189, 189)
-                                .addComponent(CrearProcesoButt))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(134, 134, 134)
-                                .addComponent(PCTittle)))
+                                .addComponent(CrearProcesoButt)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(58, 58, 58)
+                .addComponent(IOBoundLab)
+                .addGap(24, 24, 24)
+                .addComponent(InicioExcTF, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
+                .addComponent(IOBoundLab2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(FinExcTF, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -292,7 +337,7 @@ public class ProcessConfUI extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(CantInsLab)
-                    .addComponent(PriorityTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(CantInstTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(CPUBoundButt)
@@ -301,12 +346,16 @@ public class ProcessConfUI extends javax.swing.JFrame {
                 .addComponent(Lab2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(Lab3)
-                .addGap(18, 18, 18)
-                .addComponent(CantInstIOTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(InicioExcTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(IOBoundLab)
+                    .addComponent(IOBoundLab2)
+                    .addComponent(FinExcTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(CantInstTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(PriorityTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(78, 78, 78)
                 .addComponent(CrearProcesoButt)
                 .addGap(83, 83, 83)
@@ -333,7 +382,7 @@ public class ProcessConfUI extends javax.swing.JFrame {
             this.sim.iniciar();
             this.dispose();
         }else{
-            
+            this.dispose();
         }
     }//GEN-LAST:event_BackToSimButtActionPerformed
 
@@ -342,33 +391,49 @@ public class ProcessConfUI extends javax.swing.JFrame {
     }//GEN-LAST:event_NameTFActionPerformed
 
     private void CrearProcesoButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearProcesoButtActionPerformed
-    String nombre = NameTF.getText();
-    int numeroInstrucciones = Integer.parseInt(CantInstTF.getText());
-    int prioridad = Integer.parseInt(PriorityTF.getText());
-    String tipo = "";
+String nombrel = NameTF.getText();
+int inst = Integer.parseInt(this.CantInstTF.getText());
+int prio = Integer.parseInt(this.PriorityTF.getText());
+String tipot = "";
+if (IOBoundButt.isSelected()) {
+    tipot = "I/O Bound";
+} else if (CPUBoundButt.isSelected()) {
+    tipot = "CPU Bound";
+} else {
+    JOptionPane.showMessageDialog(this, "Seleccione un tipo de proceso (CPU Bound o I/O Bound).", "Error", JOptionPane.ERROR_MESSAGE);
+    return;
+}
+Proceso creado = null;
 
-    if (CPUBoundButt.isSelected()) {
-        tipo = "CPU Bound";
-        Proceso nuevoProceso = new Proceso(nombre, numeroInstrucciones, tipo, prioridad);
-        colalistos.AddElement(nuevoProceso);
-    } else if (IOBoundButt.isSelected()) {
-        tipo = "I/O Bound";
-        String[] excepcion = CantInstIOTF.getText().split(",");
-        int inicioExcepcion = Integer.parseInt(excepcion[0].trim());
-        int finExcepcion = Integer.parseInt(excepcion[1].trim());
-        Proceso nuevoProceso = new Proceso(nombre, numeroInstrucciones, tipo, prioridad, inicioExcepcion, finExcepcion);
-        colalistos.AddElement(nuevoProceso);
-    } else {
-        javax.swing.JOptionPane.showMessageDialog(this, "Por favor seleccione el tipo de proceso (CPU Bound o I/O Bound)");
+if ("CPU Bound".equals(tipot)) {
+    creado = new Proceso(nombrel, inst, "CPU Bound", prio);
+    System.out.println("Se agregó CPU Bound.");
+} else if ("I/O Bound".equals(tipot)) {
+    try {
+        int inicioExcepcion = Integer.parseInt(this.InicioExcTF.getText());
+        int finExcepcion = Integer.parseInt(this.FinExcTF.getText());
+        creado = new Proceso(nombrel, inst, "I/O Bound", prio, inicioExcepcion, finExcepcion);
+        System.out.println("Se agregó I/O Bound.");
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Ingrese valores numéricos válidos en 'Inicio Excepción' y 'Fin Excepción'.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
+}
+if (creado != null) {
+    if (this.sim.empezoYa()) {
+        this.sim.actualizarListos(creado);
+        this.sim.informarCPUS();
+    } else {
+        colalistos.AddElement(creado);
+    }
+    JOptionPane.showMessageDialog(this, "Proceso creado y agregado a la cola con éxito.");
+} else {
+    JOptionPane.showMessageDialog(this, "No se pudo crear el proceso.", "Error", JOptionPane.ERROR_MESSAGE);
+}
 
-    NameTF.setText("");
-    CantInstTF.setText("");
-    PriorityTF.setText("");
-    CantInstIOTF.setText("");
-    ProcessModeButts.clearSelection();
-    javax.swing.JOptionPane.showMessageDialog(this, "Proceso creado y agregado a la cola con éxito.");
+ProcessModeButts.clearSelection();
+clear();
+tipot = "CPU Bound";
     }//GEN-LAST:event_CrearProcesoButtActionPerformed
 
     private void CantInstTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CantInstTFActionPerformed
@@ -384,12 +449,20 @@ public class ProcessConfUI extends javax.swing.JFrame {
     CantInstTF.setForeground(new java.awt.Color(0, 0, 0));
     }
     private void CantInstIOTFMouseClicked(java.awt.event.MouseEvent evt) {                                          
-    CantInstIOTF.setText("");
-    CantInstIOTF.setForeground(new java.awt.Color(0, 0, 0));
+    InicioExcTF.setText("");
+    InicioExcTF.setForeground(new java.awt.Color(0, 0, 0));
     }
     private void PriorityTFMouseClicked(java.awt.event.MouseEvent evt) {                                          
     PriorityTF.setText("");
     PriorityTF.setForeground(new java.awt.Color(0, 0, 0));
+    }
+    private void InicioExcTFMouseClicked(java.awt.event.MouseEvent evt) {                                          
+    InicioExcTF.setText("");
+    InicioExcTF.setForeground(new java.awt.Color(0, 0, 0));
+    }
+    private void FinExcTFMouseClicked(java.awt.event.MouseEvent evt) {                                          
+    FinExcTF.setText("");
+    FinExcTF.setForeground(new java.awt.Color(0, 0, 0));
     }
     
     /**
@@ -431,10 +504,13 @@ public class ProcessConfUI extends javax.swing.JFrame {
     private javax.swing.JButton BackToSimButt;
     private javax.swing.JRadioButton CPUBoundButt;
     private javax.swing.JLabel CantInsLab;
-    private javax.swing.JTextField CantInstIOTF;
     private javax.swing.JTextField CantInstTF;
     private javax.swing.JButton CrearProcesoButt;
+    private javax.swing.JTextField FinExcTF;
     private javax.swing.JRadioButton IOBoundButt;
+    private javax.swing.JLabel IOBoundLab;
+    private javax.swing.JLabel IOBoundLab2;
+    private javax.swing.JTextField InicioExcTF;
     private javax.swing.JLabel Lab1;
     private javax.swing.JLabel Lab2;
     private javax.swing.JLabel Lab3;
