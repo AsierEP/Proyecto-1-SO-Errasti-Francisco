@@ -55,7 +55,6 @@
                               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                               <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                                   <Component id="StartProcessButt" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="LoadProcessButt" alignment="0" max="32767" attributes="0"/>
                                   <Component id="SavedProcessButt" alignment="0" pref="200" max="32767" attributes="0"/>
                               </Group>
                           </Group>
@@ -81,9 +80,7 @@
                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="SavedProcessButt" min="-2" pref="36" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="LoadProcessButt" min="-2" pref="36" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
                   <Component id="StartProcessButt" min="-2" pref="36" max="-2" attributes="0"/>
                   <EmptySpace pref="82" max="32767" attributes="0"/>
               </Group>
@@ -119,17 +116,6 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Seleccione una opci&#xf3;n:"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="LoadProcessButt">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="99" green="ff" red="66" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Cargar nuevos procesos"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LoadProcessButtActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="StartProcessButt">
           <Properties>

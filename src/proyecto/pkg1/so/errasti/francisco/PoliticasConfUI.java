@@ -17,7 +17,11 @@ public class PoliticasConfUI extends javax.swing.JFrame {
     /**
      * Creates new form PoliticasConfUI
      */
+    
     public PoliticasConfUI() {
+        initComponents();
+    }
+    public PoliticasConfUI(MainUI sim) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setResizable(false);

@@ -181,8 +181,10 @@ public class NumCPUConfUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AplicarButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AplicarButtActionPerformed
-        ProcessConfUI pc = new ProcessConfUI(this.getCPU(),this.getDuracion());
-        pc.setVisible(true);
+        MainUI sim = new MainUI("FCFS",this.getCPU(),this.getDuracion());
+        ProcessConfUI l = new ProcessConfUI(sim,this.getCPU(),this.getDuracion());
+        sim.setVisible(true);
+        l.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_AplicarButtActionPerformed
 

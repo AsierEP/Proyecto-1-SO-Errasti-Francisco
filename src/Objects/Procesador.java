@@ -42,17 +42,11 @@ public class Procesador extends Thread {
             try {
                 if(procesoActual==null){
                     semaforo.Swait();
-                    if (!this.simulacion.getColaL().IsEmpty()||!this.simulacion.getColaCopiaListos().IsEmpty()) {
-                        if("FCFS".equals(this.simulacion.getPolitica())){
-                            if(this.simulacion.getColaL().IsEmpty()){
-                                procesoActual = this.simulacion.getColaCopiaListos().RemoveElement();
-                            }else{
-                                procesoActual = this.simulacion.getColaL().RemoveElement();
-                            }
+                    if (!this.simulacion.getColaL().IsEmpty()) {
+                        if("FCFS".equals(this.simulacion.getPolitica())||"RR".equals(this.simulacion.getPolitica())){
+                            procesoActual = this.simulacion.getColaL().RemoveElement();
                             procesoActual.setEstado("Running");
                             this.simulacion.textoListos(this.simulacion.getColaL().print());
-                        }else if("RR".equals(this.simulacion.getPolitica())){
-
                         }
                     }
                     semaforo.Ssignal();
@@ -60,8 +54,13 @@ public class Procesador extends Thread {
                 if (procesoActual != null) {
                     ejecutarProceso(procesoActual);
                 } else {
+                    if (hayinterrupcion) 
+                        manejarInterrupcion();
+                    this.simulacion.getInstancia().actualizarTextoArea("Espera activa\nProcesador tomado por \nel Sistema Operativo...",this.num);
                     Thread.sleep(cicloReloj);
                     ciclosprocesador++;
+                    if(this.simulacion.hayCambioPend())
+                        this.gestionarCambio(procesoActual);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -69,30 +68,32 @@ public class Procesador extends Thread {
         }
     }
     
-        private void ejecutarProceso(Proceso proceso) {
-        if("FCFS".equals(this.simulacion.getPolitica())){
+    private void ejecutarProceso(Proceso proceso) {
+        if("RR".equals(this.simulacion.getPolitica())){
+            int ciclosPasados = 0;
             if("CPU Bound".equals(proceso.getTipo())||proceso.IOComplete()){
-                //System.out.println("Procesador " + id + " ejecutando proceso: " + proceso.getNombre());
-                while (proceso.getInsfaltantes()> 0 && estado && !this.simulacion.hayCambioPend()) {
+                while (proceso.getInsfaltantes()> 0 && !this.simulacion.hayCambioPend()&&ciclosPasados <5) {
                     try {
                         if (hayinterrupcion) 
                             manejarInterrupcion();
                         this.simulacion.getInstancia().actualizarTextoArea("ID: "+ this.procesoActual.getId()+"\nSTATUS: "+this.procesoActual.getEstado()+"\nNombre: "+this.procesoActual.getNombre()+"\nPC: "+this.procesoActual.getPC()+", MAR: "+this.procesoActual.getMAR(),this.num);
-                        Thread.sleep(cicloReloj); // Simular la ejecución de una instrucción (ajustado al ciclo de reloj)
+                        Thread.sleep(cicloReloj);
                         proceso.setInsfaltantes(proceso.getInsfaltantes()-1);
                         ciclosprocesador++;
+                        
                         this.procesoActual.setPC(this.procesoActual.getPC()+1);
                         System.out.println("Procesador " + num + " ejecutó una instrucción. Instrucciones restantes: " + proceso.getInsfaltantes());
+                        ciclosPasados++;
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-                if(estado&& procesoActual.getInsfaltantes()==0){
+                if(procesoActual.getInsfaltantes()==0){
                     System.out.println("Procesador " + num + " terminó el proceso: " + proceso.getNombre());
-                    this.simulacion.getInstancia().actualizarTextoArea("Procesador tomado por \nel Sistema Operativo...",this.num);
+                    this.simulacion.getInstancia().actualizarTextoArea("Eligiendo proceso\nProcesador tomado por \nel Sistema Operativo...",this.num);
                     procesoActual.setEstado("Finished");
                     this.simulacion.actualizarTerminados(this.procesoActual);
-                    procesoActual = null; // Liberar el procesador
+                    procesoActual = null;
                     try {
                         Thread.sleep(cicloReloj);
                     } catch (InterruptedException e) {
@@ -102,13 +103,100 @@ public class Procesador extends Thread {
                 if(this.simulacion.hayCambioPend()){
                     this.gestionarCambio(procesoActual);
                 }
+                if(procesoActual!=null&&ciclosPasados==5&&procesoActual.getInsfaltantes()!=0){
+                    this.simulacion.getInstancia().actualizarTextoArea("Exceso de quantum\nProcesador tomado por \nel Sistema Operativo...",this.num);
+                    procesoActual.setEstado("Ready");
+                    this.simulacion.addListos(proceso);
+                    procesoActual=null;
+                    try {
+                        Thread.sleep(cicloReloj);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
             }else{
                 if(!proceso.IOComplete()){
                     proceso.setIdProcesador(this.num);
-                    while (proceso.NoHaSucedidoInterrupcion() && estado && !this.simulacion.hayCambioPend()) {
+                    while (proceso.NoHaSucedidoInterrupcion() && !this.simulacion.hayCambioPend()&&ciclosPasados <5) {
                         try {
                             this.simulacion.getInstancia().actualizarTextoArea("ID: "+ this.procesoActual.getId()+"\nSTATUS: "+this.procesoActual.getEstado()+"\nNombre: "+this.procesoActual.getNombre()+"\nPC: "+this.procesoActual.getPC()+", MAR: "+this.procesoActual.getMAR(),this.num);
-                            Thread.sleep(cicloReloj); // Simular la ejecución de una instrucción (ajustado al ciclo de reloj)
+                            Thread.sleep(cicloReloj);
+                            proceso.setInsfaltantes(proceso.getInsfaltantes()-1);
+                            ciclosprocesador++;
+                            ciclosPasados++;
+                            this.procesoActual.setPC(this.procesoActual.getPC()+1);
+                            System.out.println("Procesador " + num + " ejecutó una instrucción. Instrucciones restantes: " + proceso.getInsfaltantes());
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if(procesoActual!=null&&ciclosPasados==5&&procesoActual.getInicioExcepcion()!=5){
+                        this.simulacion.addListos(proceso);
+                        this.simulacion.getInstancia().actualizarTextoArea("Exceso de quantum\nProcesador tomado por \nel Sistema Operativo...",this.num);
+                        procesoActual.setEstado("Ready");
+                        try {
+                            Thread.sleep(cicloReloj);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        procesoActual=null;
+                    }else{
+                        this.simulacion.getInstancia().actualizarTextoArea("Enviando a bloqueados\nProcesador tomado por \nel Sistema Operativo...",this.num);
+                        procesoActual.setEstado("Blocked");
+                        this.simulacion.actualizarBloqueados(procesoActual);
+                        procesoActual = null; // Liberar el procesador
+                        try {
+                            Thread.sleep(cicloReloj);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if(this.simulacion.hayCambioPend()){
+                        this.gestionarCambio(procesoActual);
+                    }
+                }
+            }
+        }else if ("FCFS".equals(this.simulacion.getPolitica())){
+            if("CPU Bound".equals(proceso.getTipo())||proceso.IOComplete()){
+                while (proceso.getInsfaltantes()> 0 && !this.simulacion.hayCambioPend()) {
+                    try {
+                        if (hayinterrupcion) 
+                            manejarInterrupcion();
+                        this.simulacion.getInstancia().actualizarTextoArea("ID: "+ this.procesoActual.getId()+"\nSTATUS: "+this.procesoActual.getEstado()+"\nNombre: "+this.procesoActual.getNombre()+"\nPC: "+this.procesoActual.getPC()+", MAR: "+this.procesoActual.getMAR(),this.num);
+                        Thread.sleep(cicloReloj);
+                        proceso.setInsfaltantes(proceso.getInsfaltantes()-1);
+                        ciclosprocesador++;
+                        this.procesoActual.setPC(this.procesoActual.getPC()+1);
+                        System.out.println("Procesador " + num + " ejecutó una instrucción. Instrucciones restantes: " + proceso.getInsfaltantes());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if(!this.simulacion.hayCambioPend()){
+                    System.out.println("Procesador " + num + " terminó el proceso: " + proceso.getNombre());
+                    this.simulacion.getInstancia().actualizarTextoArea("Eligiendo proceso\nProcesador tomado por \nel Sistema Operativo...",this.num);
+                    procesoActual.setEstado("Finished");
+                    this.simulacion.actualizarTerminados(procesoActual);
+                    procesoActual = null;
+                    try {
+                    Thread.sleep(cicloReloj);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                }
+                if(this.simulacion.hayCambioPend()){
+                        this.gestionarCambio(procesoActual);
+                }
+                
+            }else{
+                if(!proceso.IOComplete()){
+                    proceso.setIdProcesador(this.num);
+                    while (proceso.NoHaSucedidoInterrupcion() && !this.simulacion.hayCambioPend()) {
+                        try {
+                            if (hayinterrupcion) 
+                                manejarInterrupcion();
+                            this.simulacion.getInstancia().actualizarTextoArea("ID: "+ this.procesoActual.getId()+"\nSTATUS: "+this.procesoActual.getEstado()+"\nNombre: "+this.procesoActual.getNombre()+"\nPC: "+this.procesoActual.getPC()+", MAR: "+this.procesoActual.getMAR(),this.num);
+                            Thread.sleep(cicloReloj);
                             proceso.setInsfaltantes(proceso.getInsfaltantes()-1);
                             ciclosprocesador++;
                             this.procesoActual.setPC(this.procesoActual.getPC()+1);
@@ -117,23 +205,23 @@ public class Procesador extends Thread {
                             e.printStackTrace();
                         }
                     }
-                    if(estado&& procesoActual.getInsfaltantes()==0){
-                    this.simulacion.getInstancia().actualizarTextoArea("Procesador tomado por \nel Sistema Operativo...",this.num);
-                    procesoActual.setEstado("Blocked");
-                    this.simulacion.actualizarBloqueados(procesoActual);
-                    procesoActual = null; // Liberar el procesador
-                    try { //este es para que salga la vaina de que el sistema operativo toma el procesador
-                        Thread.sleep(cicloReloj); // Pausa de 500 ms para que el mensaje sea visible
+                    if(!this.simulacion.hayCambioPend()){
+                        this.simulacion.getInstancia().actualizarTextoArea("Enviando a bloqueados\nProcesador tomado por \nel Sistema Operativo...",this.num);
+                        procesoActual.setEstado("Blocked");
+                        this.simulacion.actualizarBloqueados(procesoActual);
+                        procesoActual = null;
+                        try {
+                        Thread.sleep(cicloReloj);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
-                    }}
+                    }
+                    }
                     if(this.simulacion.hayCambioPend()){
                         this.gestionarCambio(procesoActual);
                     }
+                    
                 }
             }
-        }else{
-            
         }
     }
 
@@ -183,14 +271,17 @@ public class Procesador extends Thread {
         this.procesoActual = procesoActual;
     }
     
-        public void gestionarCambio(Proceso proceso){
+    public void gestionarCambio(Proceso proceso){
         try {
+            if(procesoActual!=null){
             this.simulacion.getInstancia().actualizarTextoArea("Interrupción del SO\nCambio de política",this.num);
-            this.simulacion.aggRespaldo(proceso);
             procesoActual.setEstado("Ready");
+            semaforo.Swait();
+            this.simulacion.aggListosppio(proceso);
             procesoActual=null;
+            semaforo.Ssignal();
             Thread.sleep(cicloReloj);
-            this.simulacion.Fincambio();
+            this.simulacion.Fincambio();}
         } catch (InterruptedException ex) {
             Logger.getLogger(Procesador.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -18,6 +18,8 @@ public class ProcessConfUI extends javax.swing.JFrame {
     private String tipot = "CPU Bound";
     private int numProcesadores;
     private int duracionCiclo;
+    private MainUI sim;
+    private Proceso creado;
 
 
 
@@ -75,10 +77,11 @@ public class ProcessConfUI extends javax.swing.JFrame {
         CantInstIOTF.setVisible(false);
     }
     
-        public ProcessConfUI(int cantcpu, int time) {
+        public ProcessConfUI(MainUI sim, int cantcpu, int time) {
         initComponents();
         this.numProcesadores=cantcpu;
         this.duracionCiclo=time;
+        this.sim = sim;
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         
@@ -326,11 +329,12 @@ public class ProcessConfUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BackToSimButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackToSimButtActionPerformed
-        MainUI main = new MainUI("FCFS",this.numProcesadores,this.duracionCiclo);
-        main.setVisible(true);
-        PoliticasConfUI politicasConfUI = new PoliticasConfUI();
-        politicasConfUI.seleccionarFCFS();
-        this.dispose();
+        if(!this.sim.empezoYa()){
+            this.sim.iniciar();
+            this.dispose();
+        }else{
+            
+        }
     }//GEN-LAST:event_BackToSimButtActionPerformed
 
     private void NameTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NameTFActionPerformed

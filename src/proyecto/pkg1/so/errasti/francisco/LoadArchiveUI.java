@@ -70,7 +70,6 @@ public class LoadArchiveUI extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         SavedProcessButt = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        LoadProcessButt = new javax.swing.JButton();
         StartProcessButt = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -91,14 +90,6 @@ public class LoadArchiveUI extends javax.swing.JFrame {
         });
 
         jLabel3.setText("Seleccione una opción:");
-
-        LoadProcessButt.setBackground(new java.awt.Color(102, 255, 153));
-        LoadProcessButt.setText("Cargar nuevos procesos");
-        LoadProcessButt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LoadProcessButtActionPerformed(evt);
-            }
-        });
 
         StartProcessButt.setBackground(new java.awt.Color(204, 255, 153));
         StartProcessButt.setText("Iniciar nuevos procesos");
@@ -123,7 +114,6 @@ public class LoadArchiveUI extends javax.swing.JFrame {
                             .addComponent(jLabel2)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(StartProcessButt, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(LoadProcessButt, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(SavedProcessButt, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)))))
                 .addContainerGap(129, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -142,9 +132,7 @@ public class LoadArchiveUI extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
                 .addComponent(SavedProcessButt, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(LoadProcessButt, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(72, 72, 72)
                 .addComponent(StartProcessButt, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(82, Short.MAX_VALUE))
         );
@@ -168,10 +156,6 @@ public class LoadArchiveUI extends javax.swing.JFrame {
         sim.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_SavedProcessButtActionPerformed
-
-    private void LoadProcessButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadProcessButtActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_LoadProcessButtActionPerformed
 
     private void StartProcessButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartProcessButtActionPerformed
         NumCPUConfUI n = new NumCPUConfUI(this);
@@ -215,7 +199,6 @@ public class LoadArchiveUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton LoadProcessButt;
     private javax.swing.JButton SavedProcessButt;
     private javax.swing.JButton StartProcessButt;
     private javax.swing.JLabel jLabel1;
